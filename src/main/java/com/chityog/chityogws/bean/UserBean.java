@@ -9,6 +9,7 @@ public class UserBean implements Serializable{
 	private String email;
 	private String phone;
 	private String address;
+	private String password;
 	public Long getUserId() {
 		return userId;
 	}
@@ -39,6 +40,13 @@ public class UserBean implements Serializable{
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	
 	
 	

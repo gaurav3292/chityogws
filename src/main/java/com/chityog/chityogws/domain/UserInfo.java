@@ -36,6 +36,9 @@ public class UserInfo implements Serializable{
 	
 	@Column(name = "ADDRESS")
 	private String address;
+	
+	@Column(name = "PASSWORD")
+	private String password;
 
 	public Long getUserId() {
 		return userId;
@@ -77,6 +80,16 @@ public class UserInfo implements Serializable{
 		this.address = address;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
+	
 	
 	
 }
