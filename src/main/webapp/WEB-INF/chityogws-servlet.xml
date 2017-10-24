@@ -47,6 +47,7 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>
@@ -68,5 +69,23 @@
 	</bean>
 
 	<!-- END of DB Configuration -->
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="smtp.gmail.com" />
+	<property name="port" value="587" />
+	<property name="username" value="gaurav3292" />
+	<property name="password" value="loveisyou" />
+
+	<property name="javaMailProperties">
+	   <props>
+       	      <prop key="mail.smtp.auth">true</prop>
+       	      <prop key="mail.smtp.starttls.enable">true</prop>
+       	   </props>
+	</property>
+</bean>
+
+<bean id="mailMail" class="com.chityog.chityogws.mail.MailMail">
+	<property name="mailSender" ref="mailSender" />
+</bean>
 
 </beans>

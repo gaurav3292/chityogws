@@ -39,15 +39,38 @@ public class UserDao {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createSQLQuery(
-						"insert into user (NAME,EMAIL,PHONE,ADDRESS,GENDER,PASSWORD) values (:name,:email, :phone, :address, :gender, :password)");
+						"insert into user (NAME,EMAIL,PHONE,ADDRESS,GENDER,PASSWORD,DEVICE_TYPE,COUNTRY) values (:name,:email, :phone, :address, :gender, :password, :deviceType, :country)");
 
 		query.setString("name", user.getName());
 		query.setString("email", user.getEmail());
 		query.setString("phone", user.getPhone());
 		query.setString("address", user.getAddress());
 		query.setString("password", MD5.encode(user.getPassword()));
-		query.setString("gender", "M");
+		query.setString("gender", user.getGender());
+		query.setString("deviceType", user.getDeviceType());
+		query.setString("country", user.getCountry());
+		
 		query.executeUpdate();
 	}
+
+	public UserInfo getUserId(UserBean user) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from UserInfo u where u.userId = :id");
+		query.setLong("id", user.getUserId());
+		return (UserInfo) query.uniqueResult();
+	}
+
+	public int updateUserPassword(UserBean user) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"UPDATE  UserInfo u SET u.password = :password where u.userId = :id");
+		query.setLong("id", user.getUserId());
+		query.setString("password", MD5.encode(user.getNewPassword()));
+		query.executeUpdate();
+		return query.executeUpdate();
+	}
+	
+	
 
 }

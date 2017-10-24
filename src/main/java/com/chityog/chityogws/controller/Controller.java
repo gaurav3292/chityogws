@@ -4,12 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.UserInfo;
+import com.chityog.chityogws.mail.MailMail;
 import com.chityog.chityogws.security.MD5;
 import com.chityog.chityogws.service.CountryService;
 import com.chityog.chityogws.service.UserService;
@@ -61,6 +65,7 @@ public class Controller {
 
 				userService.createUser(user);
 				userInfo = userService.checkExistingUser(user);
+				map.put("msg", "New user created successfully");
 				map.put("user", userInfo);
 
 			}
@@ -88,12 +93,65 @@ public class Controller {
 				map.put("status", Config.ERROR);
 				map.put("msg", "Incorrect Password");
 			} else {
+				map.put("msg", "Logged in user details");
 				map.put("user", userInfo);
 			}
 
 			return map;
 		}
 
+	}
+
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+	public Map<String, Object> changePassword(@RequestBody UserBean user) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.validatePassword(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				if (!userInfo.getPassword().equalsIgnoreCase(
+						MD5.encode(user.getOldPassword()))) {
+					map.put("status", Config.ERROR);
+					map.put("msg", "PLease enter correct old password");
+				} else {
+					int result = userService.updateUserPassword(user);
+					if (result == 1) {
+						map.put("msg", "Password has been changed successfully");
+
+					} else {
+						map.put("status", Config.ERROR);
+						map.put("msg", "Database error occured");
+					}
+				}
+			}
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
+	public Map<String, Object> sendMail() {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"beans.xml");
+
+		MailMail mm = (MailMail) context.getBean("mailMail");
+		mm.sendMail("gaurav3292@gmail.com", "gaurav.kumar@karmatech.in", "Testing123",
+				"http://54.213.234.78/chityogws/getCountries");
+		
+		
+		map.put("status", Config.SUCCESS);
+		return map;
 	}
 
 }

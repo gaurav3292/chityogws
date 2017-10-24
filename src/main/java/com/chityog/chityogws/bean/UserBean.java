@@ -10,6 +10,12 @@ public class UserBean implements Serializable{
 	private String phone;
 	private String address;
 	private String password;
+	private String deviceType;
+	private String gender;
+	private String country;
+	private String oldPassword;
+	private String newPassword;
+	
 	public Long getUserId() {
 		return userId;
 	}
@@ -46,6 +52,40 @@ public class UserBean implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getDeviceType() {
+		return deviceType;
+	}
+	public void setDeviceType(String deviceType) {
+		this.deviceType = deviceType;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getOldPassword() {
+		return oldPassword;
+	}
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+	
+	
+	
+	
 	
 	
 	

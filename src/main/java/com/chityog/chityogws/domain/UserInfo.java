@@ -39,6 +39,12 @@ public class UserInfo implements Serializable{
 	
 	@Column(name = "PASSWORD")
 	private String password;
+	
+	@Column(name = "DEVICE_TYPE")
+	private String deviceType;
+	
+	@Column(name = "COUNTRY")
+	private String country;
 
 	public Long getUserId() {
 		return userId;
@@ -88,6 +94,26 @@ public class UserInfo implements Serializable{
 		this.password = password;
 	}
 
+	public String getDeviceType() {
+		return deviceType;
+	}
+
+	public void setDeviceType(String deviceType) {
+		this.deviceType = deviceType;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+
+	
+
+	
 	
 	
 	

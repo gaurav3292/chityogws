@@ -21,8 +21,17 @@ public class UserService {
 		return userDao.getUserPhone(user);
 	}
 	
+	public UserInfo checkExistingUserId(UserBean user){
+		return userDao.getUserId(user);
+	}
+	
 	public void createUser(UserBean user){
 		userDao.createUser(user);
+	}
+
+	public int updateUserPassword(UserBean user) {
+		// TODO Auto-generated method stub
+		return userDao.updateUserPassword(user);
 	}
 
 }

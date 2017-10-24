@@ -75,4 +75,34 @@ public class UserValidations {
 		return map;
 	}
 
+	public static Map<String, Object> validatePassword(UserBean user) {
+		// TODO Auto-generated method stub
+
+		String status = Config.SUCCESS;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (user.getOldPassword() == null && user.getNewPassword() == null) {
+
+			status = Config.ERROR;
+
+			map.put("msg", "Please fill the required fields");
+
+		} else if (user.getOldPassword() == null
+				|| user.getNewPassword() == null) {
+
+			if (user.getOldPassword() == null) {
+				status = Config.ERROR;
+
+				map.put("msg", "Old password is required");
+			} else {
+				status = Config.ERROR;
+
+				map.put("msg", "New password is required");
+			}
+
+		}
+
+		map.put("status", status);
+		return map;
+	}
+
 }
