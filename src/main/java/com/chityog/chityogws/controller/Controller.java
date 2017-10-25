@@ -143,7 +143,7 @@ public class Controller {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"beans.xml");
+				"file:src/main/webapp/WEB-INF/chityogws-servlet.xml");
 
 		MailMail mm = (MailMail) context.getBean("mailMail");
 		mm.sendMail("gaurav3292@gmail.com", "gaurav.kumar@karmatech.in", "Testing123",

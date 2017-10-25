@@ -87,5 +87,6 @@
 <bean id="mailMail" class="com.chityog.chityogws.mail.MailMail">
 	<property name="mailSender" ref="mailSender" />
 </bean>
+	
 
 </beans>
