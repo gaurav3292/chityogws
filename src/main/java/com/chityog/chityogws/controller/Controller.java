@@ -2,6 +2,7 @@ package com.chityog.chityogws.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chityog.chityogws.bean.UserBean;
+import com.chityog.chityogws.domain.ForgotPasswordInfo;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.mail.MailMail;
 import com.chityog.chityogws.security.MD5;
@@ -137,20 +139,58 @@ public class Controller {
 
 	}
 
-	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
-	public Map<String, Object> sendMail() {
+	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
+	public Map<String, Object> forgotPassword(@RequestBody UserBean user) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"file:src/main/webapp/WEB-INF/chityogws-servlet.xml");
+		map = UserValidations.checkEmail(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUser(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "Email id does not exits");
+			} else {
+				String randomStr = "";
+				Random r = new Random();
+				for (int i = 0; i < 4; i++) {
+					char c = (char) (r.nextInt(26) + 'a');
+					randomStr = randomStr + String.valueOf(c);
+				}
 
-		MailMail mm = (MailMail) context.getBean("mailMail");
-		mm.sendMail("gaurav3292@gmail.com", "gaurav.kumar@karmatech.in", "Testing123",
-				"http://54.213.234.78/chityogws/getCountries");
-		
-		
-		map.put("status", Config.SUCCESS);
+				ForgotPasswordInfo forgotPasswordInfo = userService
+						.checkExistingCode(userInfo);
+				int result;
+				if (forgotPasswordInfo == null) {
+					result = userService.createNewRandomPassword(userInfo,
+							randomStr);
+				} else {
+					result = userService.updateRandomPassword(userInfo,
+							forgotPasswordInfo, randomStr);
+				}
+
+				if (result == 1) {
+					ApplicationContext context = new ClassPathXmlApplicationContext(
+							"file:src/main/webapp/WEB-INF/chityogws-servlet.xml");
+
+					MailMail mm = (MailMail) context.getBean("mailMail");
+					mm.sendMail("gaurav3292@gmail.com", user.getEmail(),
+							"Forgot Password", "Your verification code is "
+									+ randomStr);
+
+					map.put("msg",
+							"Your verification code has been sent to your mail please check your Email.");
+
+				} else {
+					map.put("status", Config.ERROR);
+					map.put("msg", "Database error occured");
+				}
+			}
+		}
+
 		return map;
 	}
 

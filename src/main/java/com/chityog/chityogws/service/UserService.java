@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.dao.UserDao;
+import com.chityog.chityogws.domain.ForgotPasswordInfo;
 import com.chityog.chityogws.domain.UserInfo;
 
 @Service
@@ -33,5 +34,22 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return userDao.updateUserPassword(user);
 	}
+
+	public int updateRandomPassword(UserInfo userInfo, ForgotPasswordInfo forgotPasswordInfo, String randomStr) {
+		// TODO Auto-generated method stub
+		return userDao.updateRandomPassword(userInfo,forgotPasswordInfo,randomStr);
+	}
+
+	public ForgotPasswordInfo checkExistingCode(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		return userDao.checkExistingCode(userInfo);
+	}
+
+	public int createNewRandomPassword(UserInfo userInfo, String randomStr) {
+		// TODO Auto-generated method stub
+		return userDao.createNewRandomPassword(userInfo,randomStr);
+	}
+
+
 
 }
