@@ -108,33 +108,74 @@ public class Controller {
 	public Map<String, Object> changePassword(@RequestBody UserBean user) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map = UserValidations.validatePassword(user);
-		String status = (String) map.get("status");
-		if (status.equalsIgnoreCase(Config.ERROR)) {
-			return map;
-		} else {
-			UserInfo userInfo = userService.checkExistingUserId(user);
-			if (userInfo == null) {
-				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+		if (user.getOtp() == null) {
+			map = UserValidations.validatePassword(user);
+			String status = (String) map.get("status");
+			if (status.equalsIgnoreCase(Config.ERROR)) {
+				return map;
 			} else {
-				if (!userInfo.getPassword().equalsIgnoreCase(
-						MD5.encode(user.getOldPassword()))) {
+				UserInfo userInfo = userService.checkExistingUserId(user);
+				if (userInfo == null) {
 					map.put("status", Config.ERROR);
-					map.put("msg", "PLease enter correct old password");
+					map.put("msg", "User does not exits");
 				} else {
-					int result = userService.updateUserPassword(user);
-					if (result == 1) {
-						map.put("msg", "Password has been changed successfully");
-
-					} else {
+					if (!userInfo.getPassword().equalsIgnoreCase(
+							MD5.encode(user.getOldPassword()))) {
 						map.put("status", Config.ERROR);
-						map.put("msg", "Database error occured");
+						map.put("msg", "PLease enter correct old password");
+					} else {
+						int result = userService.updateUserPassword(user);
+						if (result == 1) {
+							map.put("msg",
+									"Password has been changed successfully");
+
+						} else {
+							map.put("status", Config.ERROR);
+							map.put("msg", "Database error occured");
+						}
 					}
 				}
 			}
-		}
 
+			return map;
+		} else {
+			map = UserValidations.validatePasswordOtp(user);
+			String status = (String) map.get("status");
+			if (status.equalsIgnoreCase(Config.ERROR)) {
+				return map;
+			} else {
+				UserInfo userInfo = userService.checkExistingUserId(user);
+				if (userInfo == null) {
+					map.put("status", Config.ERROR);
+					map.put("msg", "User does not exits");
+				} else {
+					ForgotPasswordInfo forgotPasswordInfo = userService
+							.checkExistingCode(userInfo);
+					if (forgotPasswordInfo != null) {
+
+						if (user.getOtp().equalsIgnoreCase(
+								forgotPasswordInfo.getForgotPasswordCode())) {
+							int result = userService.updateUserPassword(user);
+							if (result == 1) {
+								map.put("msg",
+										"Password has been changed successfully");
+
+							} else {
+								map.put("status", Config.ERROR);
+								map.put("msg", "Database error occured");
+							}
+
+						}else{
+							map.put("status", Config.ERROR);
+							map.put("msg", "Your verification code is not valid");
+						}
+
+					}
+				}
+
+			}
+
+		}
 		return map;
 
 	}
@@ -174,13 +215,14 @@ public class Controller {
 
 				if (result == 1) {
 					ApplicationContext context = new ClassPathXmlApplicationContext(
-							"file:src/main/webapp/WEB-INF/chityogws-servlet.xml");
+							"spring_mail.xml");
 
 					MailMail mm = (MailMail) context.getBean("mailMail");
 					mm.sendMail("gaurav3292@gmail.com", user.getEmail(),
 							"Forgot Password", "Your verification code is "
 									+ randomStr);
 
+					map.put("user", userInfo);
 					map.put("msg",
 							"Your verification code has been sent to your mail please check your Email.");
 
