@@ -50,6 +50,11 @@ public class UserService {
 		return userDao.createNewRandomPassword(userInfo,randomStr);
 	}
 
+	public int updateTrues(UserInfo userInfo, int numberOfTrue) {
+		// TODO Auto-generated method stub
+		return userDao.updateTrues(userInfo, numberOfTrue);
+	}
+
 
 
 }

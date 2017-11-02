@@ -16,6 +16,8 @@ public class UserBean implements Serializable{
 	private String oldPassword;
 	private String newPassword;
 	private String otp;
+	private int numberOfTrue;
+	
 	
 	public Long getUserId() {
 		return userId;
@@ -88,6 +90,12 @@ public class UserBean implements Serializable{
 	}
 	public void setOtp(String otp) {
 		this.otp = otp;
+	}
+	public int getNumberOfTrue() {
+		return numberOfTrue;
+	}
+	public void setNumberOfTrue(int numberOfTrue) {
+		this.numberOfTrue = numberOfTrue;
 	}
 	
 	

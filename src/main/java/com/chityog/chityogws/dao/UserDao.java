@@ -107,5 +107,16 @@ public class UserDao {
 		query.setString("forgotPasswordCode", randomStr);
 		return query.executeUpdate();
 	}
+	
+	public int updateTrues(UserInfo userInfo,int NoOfTrue){
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserInfo u SET u.numberOfTrue = :trues where u.userId = :id");
+		query.setLong("id", userInfo.getUserId());
+		query.setInteger("trues", NoOfTrue);
+		query.executeUpdate();
+		return query.executeUpdate();
+	}
 
 }

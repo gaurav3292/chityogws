@@ -45,6 +45,9 @@ public class UserInfo implements Serializable{
 	
 	@Column(name = "COUNTRY")
 	private String country;
+	
+	@Column(name = "NUMBER_OF_TRUE")
+	private Integer numberOfTrue;
 
 	public Long getUserId() {
 		return userId;
@@ -110,6 +113,15 @@ public class UserInfo implements Serializable{
 		this.country = country;
 	}
 
+	public Integer getNumberOfTrue() {
+		return numberOfTrue;
+	}
+
+	public void setNumberOfTrue(Integer numberOfTrue) {
+		this.numberOfTrue = numberOfTrue;
+	}
+
+	
 
 	
 

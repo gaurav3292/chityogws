@@ -149,4 +149,18 @@ public class UserValidations {
 		return map;
 	}
 
+	public static Map<String, Object> checkSelfTest(UserBean user) {
+		// TODO Auto-generated method stub
+		
+		String status = Config.SUCCESS;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(user.getUserId()==null){
+			status = Config.ERROR;
+			map.put("msg", "User Id is required");
+		}
+		
+		map.put("status", status);
+		return map;
+	}
+
 }

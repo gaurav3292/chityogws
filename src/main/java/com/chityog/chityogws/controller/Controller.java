@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.ForgotPasswordInfo;
 import com.chityog.chityogws.domain.UserInfo;
+import com.chityog.chityogws.domain.UserLevelInfo;
 import com.chityog.chityogws.mail.MailMail;
 import com.chityog.chityogws.security.MD5;
 import com.chityog.chityogws.service.CountryService;
+import com.chityog.chityogws.service.UserLevelService;
 import com.chityog.chityogws.service.UserService;
 import com.chityog.chityogws.utils.Config;
 import com.chityog.chityogws.validations.UserValidations;
@@ -27,6 +29,9 @@ public class Controller {
 
 	@Autowired
 	private CountryService countryService;
+
+	@Autowired
+	private UserLevelService userLevelService;
 
 	@Autowired
 	private UserService userService;
@@ -165,9 +170,10 @@ public class Controller {
 								map.put("msg", "Database error occured");
 							}
 
-						}else{
+						} else {
 							map.put("status", Config.ERROR);
-							map.put("msg", "Your verification code is not valid");
+							map.put("msg",
+									"Your verification code is not valid");
 						}
 
 					}
@@ -234,6 +240,70 @@ public class Controller {
 		}
 
 		return map;
+	}
+
+	@RequestMapping(value = "/selfTestResult", method = RequestMethod.POST)
+	public Map<String, Object> selfTestResult(@RequestBody UserBean user) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkSelfTest(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				int result = userService.updateTrues(userInfo,
+						user.getNumberOfTrue());
+				if (result == 1) {
+					String level;
+					String msg;
+
+					if (user.getNumberOfTrue() > 10) {
+						level = "1";
+						msg = "Congratulations! You have unlocked level 1";
+					} else {
+						level = "3";
+						msg = "Congratulations! You have unlocked level 3";
+					}
+
+					UserLevelInfo userLevelInfo = userLevelService
+							.checkExistingUserLevel(userInfo);
+					int levelResult;
+					if (userLevelInfo == null) {
+						levelResult = userLevelService.createUserLevel(
+								userInfo, level);
+
+					} else {
+						levelResult = userLevelService.updateUserLevel(
+								userInfo, userLevelInfo, level);
+					}
+
+					userLevelInfo = userLevelService
+							.checkExistingUserLevel(userInfo);
+
+					if (levelResult > 0) {
+						map.put("status", Config.SUCCESS);
+						map.put("msg", msg);
+						map.put("level", userLevelInfo);
+					} else {
+						map.put("status", Config.ERROR);
+						map.put("msg", "Database error occured");
+					}
+
+				} else {
+					map.put("status", Config.ERROR);
+					map.put("msg", "Database error occured");
+				}
+			}
+
+		}
+
+		return map;
+
 	}
 
 }
