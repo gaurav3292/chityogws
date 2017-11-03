@@ -306,4 +306,50 @@ public class Controller {
 
 	}
 
+	@RequestMapping(value = "/getUserDetail", method = RequestMethod.POST)
+	public Map<String, Object> getUserDetail(@RequestBody UserBean user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map = UserValidations.checkUserId(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				map.put("msg", "User details");
+				map.put("user", userInfo);
+			}
+		}
+		return map;
+	}
+	
+	@RequestMapping(value = "/verifyEmail", method = RequestMethod.POST)
+	public Map<String, Object> verifyEmail(@RequestBody UserBean user){
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map = UserValidations.checkEmailVerification(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		}else{
+			UserInfo userInfo = userService.checkExistingUser(user);
+			if(userInfo==null){
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+				
+			}else{
+				
+			}
+		}
+		
+		return map;
+		
+	}
+	
+
 }

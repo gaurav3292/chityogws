@@ -151,14 +151,43 @@ public class UserValidations {
 
 	public static Map<String, Object> checkSelfTest(UserBean user) {
 		// TODO Auto-generated method stub
-		
+
 		String status = Config.SUCCESS;
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(user.getUserId()==null){
+		if (user.getUserId() == null) {
 			status = Config.ERROR;
 			map.put("msg", "User Id is required");
 		}
-		
+
+		map.put("status", status);
+		return map;
+	}
+
+	public static Map<String, Object> checkUserId(UserBean user) {
+		// TODO Auto-generated method stub
+		String status = Config.SUCCESS;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (user.getUserId() == null) {
+			status = Config.ERROR;
+			map.put("msg", "User Id is required");
+		}
+
+		map.put("status", status);
+		return map;
+	}
+
+	public static Map<String, Object> checkEmailVerification(UserBean user) {
+		// TODO Auto-generated method stub
+		String status = Config.SUCCESS;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (user.getUserId() == null) {
+			status = Config.ERROR;
+			map.put("msg", "User Id is required");
+		} else if (user.getEmail() == null) {
+			status = Config.ERROR;
+			map.put("msg", "Email Id is required");
+		}
+
 		map.put("status", status);
 		return map;
 	}

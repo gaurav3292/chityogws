@@ -48,6 +48,9 @@ public class UserInfo implements Serializable{
 	
 	@Column(name = "NUMBER_OF_TRUE")
 	private Integer numberOfTrue;
+	
+	@Column(name = "EMAIL_VERIFY")
+	private String isEmailVerify;
 
 	public Long getUserId() {
 		return userId;
@@ -120,6 +123,16 @@ public class UserInfo implements Serializable{
 	public void setNumberOfTrue(Integer numberOfTrue) {
 		this.numberOfTrue = numberOfTrue;
 	}
+
+	public String getIsEmailVerify() {
+		return isEmailVerify;
+	}
+
+	public void setIsEmailVerify(String isEmailVerify) {
+		this.isEmailVerify = isEmailVerify;
+	}
+	
+	
 
 	
 
