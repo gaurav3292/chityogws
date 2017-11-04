@@ -26,6 +26,10 @@ public class UserService {
 		return userDao.getUserId(user);
 	}
 	
+	public UserInfo checkExistingUserId(Long userId){
+		return userDao.getUserId(userId);
+	}
+	
 	public void createUser(UserBean user){
 		userDao.createUser(user);
 	}
@@ -53,6 +57,21 @@ public class UserService {
 	public int updateTrues(UserInfo userInfo, int numberOfTrue) {
 		// TODO Auto-generated method stub
 		return userDao.updateTrues(userInfo, numberOfTrue);
+	}
+
+	public int updateToken(UserInfo userInfo, String token) {
+		// TODO Auto-generated method stub
+		return userDao.updateToken(userInfo,token);
+	}
+
+	public int updateUserEmailVerification(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		return userDao.updateUserEmailVerification(userInfo);
+	}
+
+	public int updateProfile(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		return userDao.updateProfile(userInfo);
 	}
 
 

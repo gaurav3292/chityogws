@@ -192,4 +192,53 @@ public class UserValidations {
 		return map;
 	}
 
+	public static Map<String, Object> checkVerifyEmail(String token, Long userId) {
+		// TODO Auto-generated method stub
+		String status = Config.SUCCESS;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (userId == null) {
+			status = Config.ERROR;
+			map.put("msg", "User Id is required");
+		} else if (token == null) {
+			status = Config.ERROR;
+			map.put("msg", "Token is required");
+		}
+
+		map.put("status", status);
+		return map;
+	}
+
+	public static Map<String, Object> validateUserProfile(UserBean user) {
+		// TODO Auto-generated method stub
+		String status = Config.SUCCESS;
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (user.getName() == null && user.getAddress() == null
+				&& user.getPhone() == null && user.getGender() == null) {
+			status = Config.ERROR;
+			map.put("msg", "All fields are required");
+		} else if (user.getGender() == null || user.getName() == null
+				|| user.getAddress() == null || user.getPhone() == null) {
+			status = Config.ERROR;
+
+			if (user.getName() == null) {
+				map.put("msg", "Name field is required");
+
+			} else if (user.getGender() == null) {
+				map.put("msg", "Gender is required");
+
+			} else if (user.getPhone() == null) {
+				map.put("msg", "Phone number is required");
+
+			} else if (user.getAddress() == null) {
+				map.put("msg", "Address is required");
+
+			}
+
+		}
+
+		map.put("status", status);
+		return map;
+	}
+
 }

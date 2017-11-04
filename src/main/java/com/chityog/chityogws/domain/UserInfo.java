@@ -18,39 +18,49 @@ import org.hibernate.annotations.Parameter;
 		@Parameter(name = "increment_size", value = "10"),
 		@Parameter(name = "optimizer", value = "pooled") })
 @SuppressWarnings("serial")
-public class UserInfo implements Serializable{
-	
+public class UserInfo implements Serializable {
+
 	@Id
 	@GeneratedValue(generator = "UserInfo")
 	@Column(name = "USER_ID")
 	private Long userId;
-	
+
 	@Column(name = "NAME")
 	private String name;
-	
+
 	@Column(name = "EMAIL")
 	private String email;
-	
+
 	@Column(name = "PHONE")
 	private String phone;
-	
+
 	@Column(name = "ADDRESS")
 	private String address;
-	
+
+	@Column(name = "GENDER")
+	private String gender;
+
 	@Column(name = "PASSWORD")
 	private String password;
-	
+
 	@Column(name = "DEVICE_TYPE")
 	private String deviceType;
-	
+
 	@Column(name = "COUNTRY")
 	private String country;
-	
+
 	@Column(name = "NUMBER_OF_TRUE")
 	private Integer numberOfTrue;
-	
+
 	@Column(name = "EMAIL_VERIFY")
 	private String isEmailVerify;
+
+	@Column(name = "EMAIL_TOKEN")
+	private String token;
+
+	@Column(name = "PROFILE_PIC")
+	private String profilePic;
+	
 
 	public Long getUserId() {
 		return userId;
@@ -131,16 +141,29 @@ public class UserInfo implements Serializable{
 	public void setIsEmailVerify(String isEmailVerify) {
 		this.isEmailVerify = isEmailVerify;
 	}
-	
-	
 
-	
+	public String getToken() {
+		return token;
+	}
 
-	
+	public void setToken(String token) {
+		this.token = token;
+	}
 
-	
-	
-	
-	
-	
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
 }

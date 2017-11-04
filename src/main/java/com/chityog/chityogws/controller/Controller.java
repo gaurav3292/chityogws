@@ -4,24 +4,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.ForgotPasswordInfo;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
+import com.chityog.chityogws.helper.ConversionHelper;
 import com.chityog.chityogws.mail.MailMail;
 import com.chityog.chityogws.security.MD5;
 import com.chityog.chityogws.service.CountryService;
 import com.chityog.chityogws.service.UserLevelService;
 import com.chityog.chityogws.service.UserService;
 import com.chityog.chityogws.utils.Config;
+import com.chityog.chityogws.utils.ImageUpload;
 import com.chityog.chityogws.validations.UserValidations;
 
 @RestController
@@ -101,7 +106,15 @@ public class Controller {
 				map.put("msg", "Incorrect Password");
 			} else {
 				map.put("msg", "Logged in user details");
-				map.put("user", userInfo);
+				if (userInfo.getProfilePic() != null) {
+					String imageUrl = Config.IMAGE_LIVE_URL + "/"
+							+ userInfo.getProfilePic();
+					userInfo.setProfilePic(imageUrl);
+				}
+				UserLevelInfo userLevelInfo = userLevelService
+						.checkExistingUserLevel(userInfo);
+				UserBean userBean = ConversionHelper.convertUserInfoToUserBean(userInfo, userLevelInfo);
+				map.put("user", userBean);
 			}
 
 			return map;
@@ -321,35 +334,151 @@ public class Controller {
 				map.put("msg", "User does not exits");
 			} else {
 				map.put("msg", "User details");
-				map.put("user", userInfo);
+				if (userInfo.getProfilePic() != null) {
+					String imageUrl = Config.IMAGE_LIVE_URL + "/"
+							+ userInfo.getProfilePic();
+					userInfo.setProfilePic(imageUrl);
+				}
+				UserLevelInfo userLevelInfo = userLevelService
+						.checkExistingUserLevel(userInfo);
+				UserBean userBean = ConversionHelper.convertUserInfoToUserBean(userInfo, userLevelInfo);
+				map.put("user", userBean);
 			}
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/verifyEmail", method = RequestMethod.POST)
-	public Map<String, Object> verifyEmail(@RequestBody UserBean user){
-		
+	public Map<String, Object> verifyEmail(@RequestBody UserBean user) {
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		map = UserValidations.checkEmailVerification(user);
 		String status = (String) map.get("status");
 		if (status.equalsIgnoreCase(Config.ERROR)) {
 			return map;
-		}else{
+		} else {
 			UserInfo userInfo = userService.checkExistingUser(user);
-			if(userInfo==null){
+			if (userInfo == null) {
 				map.put("status", Config.ERROR);
 				map.put("msg", "User does not exits");
-				
-			}else{
-				
+
+			} else {
+				String token = "";
+				Random r = new Random();
+				for (int i = 0; i < 10; i++) {
+					char c = (char) (r.nextInt(26) + 'a');
+					token = token + String.valueOf(c);
+				}
+
+				int tokenResult = userService.updateToken(userInfo, token);
+				if (tokenResult == 1) {
+					ApplicationContext context = new ClassPathXmlApplicationContext(
+							"spring_mail.xml");
+
+					MailMail mm = (MailMail) context.getBean("mailMail");
+					mm.sendMail("gaurav3292@gmail.com", user.getEmail(),
+							"Verify your email", Config.EMAIL_VERIFY_STR
+									+ Config.LIVE_URL
+									+ "/confirmVerification?token=" + token
+									+ "&userId=" + user.getUserId());
+
+					map.put("user", userInfo);
+					map.put("msg",
+							"Your verification link has been sent to your mail please verify your email.");
+
+				} else {
+					map.put("status", Config.ERROR);
+					map.put("msg", "Database error occured");
+				}
 			}
 		}
-		
+
 		return map;
-		
+
 	}
-	
+
+	@RequestMapping("/confirmVerification")
+	public String confirmVerification(@RequestParam("token") String token,
+			@RequestParam("userId") Long userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkVerifyEmail(token, userId);
+		String returnStr = null;
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			returnStr = (String) map.get("msg");
+			return returnStr;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(userId);
+			if (userInfo.getToken().equalsIgnoreCase(token)) {
+				userInfo.setIsEmailVerify(Config.YES);
+				int result = userService.updateUserEmailVerification(userInfo);
+				if (result > 0) {
+					returnStr = "Your email has been verified";
+				} else {
+					returnStr = "ERROR";
+				}
+			} else {
+				returnStr = "INVALID TOKEN";
+			}
+		}
+
+		return returnStr;
+
+	}
+
+	@RequestMapping(value = "/editProfile", method = RequestMethod.POST)
+	public Map<String, Object> editProfile(@RequestBody UserBean user,
+			HttpServletRequest request) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map = UserValidations.validateUserProfile(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				userInfo.setAddress(user.getAddress());
+				userInfo.setPhone(user.getPhone());
+				userInfo.setName(user.getName());
+
+				if (user.getProfilePic() != null) {
+					ImageUpload imageUpload = new ImageUpload(user);
+					String filename = imageUpload.uploadImage(request);
+					userInfo.setProfilePic(filename);
+				} else {
+					userInfo.setProfilePic(null);
+				}
+
+				int result = userService.updateProfile(userInfo);
+				if (result > 0) {
+					userInfo = userService.checkExistingUserId(user);
+					if (userInfo.getProfilePic() != null) {
+						String imageUrl = Config.IMAGE_LIVE_URL + "/"
+								+ userInfo.getProfilePic();
+						userInfo.setProfilePic(imageUrl);
+					}
+					UserLevelInfo userLevelInfo = userLevelService
+							.checkExistingUserLevel(userInfo);
+					UserBean userBean = ConversionHelper.convertUserInfoToUserBean(userInfo, userLevelInfo);
+					map.put("user", userBean);
+
+					map.put("status", Config.SUCCESS);
+					map.put("msg", "Your profile has been updated successfully");
+				}
+
+			}
+
+		}
+
+		return map;
+
+	}
 
 }

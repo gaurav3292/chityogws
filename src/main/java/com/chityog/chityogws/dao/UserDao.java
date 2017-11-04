@@ -10,6 +10,7 @@ import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.ForgotPasswordInfo;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.security.MD5;
+import com.chityog.chityogws.utils.Config;
 
 @Repository
 @Transactional
@@ -61,6 +62,14 @@ public class UserDao {
 		return (UserInfo) query.uniqueResult();
 	}
 
+	public UserInfo getUserId(Long userId) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from UserInfo u where u.userId = :id");
+		query.setLong("id", userId);
+		return (UserInfo) query.uniqueResult();
+	}
+
 	public int updateUserPassword(UserBean user) {
 		// TODO Auto-generated method stub
 		Query query = sessionFactory
@@ -107,8 +116,8 @@ public class UserDao {
 		query.setString("forgotPasswordCode", randomStr);
 		return query.executeUpdate();
 	}
-	
-	public int updateTrues(UserInfo userInfo,int NoOfTrue){
+
+	public int updateTrues(UserInfo userInfo, int NoOfTrue) {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
@@ -117,6 +126,63 @@ public class UserDao {
 		query.setInteger("trues", NoOfTrue);
 		query.executeUpdate();
 		return query.executeUpdate();
+	}
+
+	public int updateToken(UserInfo userInfo, String token) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserInfo u SET u.token = :token where u.userId = :uid");
+		query.setString("token", token);
+		query.setLong("uid", userInfo.getUserId());
+		query.executeUpdate();
+		return query.executeUpdate();
+	}
+
+	public int updateUserEmailVerification(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserInfo u SET u.isEmailVerify = :str where u.userId = :uid");
+		query.setString("str", userInfo.getIsEmailVerify());
+		query.setLong("uid", userInfo.getUserId());
+		query.executeUpdate();
+		return query.executeUpdate();
+	}
+
+	public int updateProfile(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+
+		if (userInfo.getProfilePic() == null) {
+			Query query = sessionFactory
+					.getCurrentSession()
+					.createQuery(
+							"UPDATE  UserInfo u SET u.name = :name , u.address = :address , u.phone = :phone , u.gender = :gender  where u.userId = :uid");
+			query.setString("name", userInfo.getName());
+			query.setString("phone", userInfo.getPhone());
+			query.setString("address", userInfo.getAddress());
+			query.setString("gender", userInfo.getGender());
+			query.setLong("uid", userInfo.getUserId());
+			query.executeUpdate();
+			return query.executeUpdate();
+		} else {
+			Query query = sessionFactory
+					.getCurrentSession()
+					.createQuery(
+							"UPDATE  UserInfo u SET u.name = :name , u.address = :address , u.phone = :phone , u.gender = :gender , u.profilePic = :profilePic  where u.userId = :uid");
+			query.setString("name", userInfo.getName());
+			query.setString("phone", userInfo.getPhone());
+			query.setString("address", userInfo.getAddress());
+			query.setString("gender", userInfo.getGender());
+		
+			query.setString("profilePic", userInfo.getProfilePic());
+			query.setLong("uid", userInfo.getUserId());
+			query.executeUpdate();
+			return query.executeUpdate();
+		}
+
 	}
 
 }
