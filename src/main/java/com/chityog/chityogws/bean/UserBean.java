@@ -1,6 +1,7 @@
 package com.chityog.chityogws.bean;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 @SuppressWarnings("serial")
 public class UserBean implements Serializable {
@@ -21,6 +22,8 @@ public class UserBean implements Serializable {
 	private String profilePic;
 	private String isEmailVerify;
 	private String token;
+	private String levelNumber;
+	private Date date;
 	private UserLevelBean level;
 
 	public Long getUserId() {
@@ -135,8 +138,6 @@ public class UserBean implements Serializable {
 		this.profilePic = profilePic;
 	}
 
-	
-
 	public UserLevelBean getLevel() {
 		return level;
 	}
@@ -161,8 +162,22 @@ public class UserBean implements Serializable {
 		this.token = token;
 	}
 
-	
-	
+	public String getLevelNumber() {
+		return levelNumber;
+	}
+
+	public void setLevelNumber(String levelNumber) {
+		this.levelNumber = levelNumber;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	
 
 }

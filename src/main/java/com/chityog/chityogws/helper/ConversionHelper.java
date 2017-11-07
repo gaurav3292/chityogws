@@ -19,6 +19,9 @@ public class ConversionHelper {
 			level.setTotalNumberOfDays(userLevelInfo.getTotalNumberOfDays());
 			level.setCompletedNumberOfDays(userLevelInfo.getCompletedNumberOfDays());
 			level.setSkippedNumberOfDays(userLevelInfo.getSkippedNumberOfDays());
+			level.setStartDate(userLevelInfo.getStartDate());
+			level.setIsResult(userLevelInfo.getIsResult());
+			level.setNumberOfTrue(userLevelInfo.getNumberOfTrue());
 		}
 		
 

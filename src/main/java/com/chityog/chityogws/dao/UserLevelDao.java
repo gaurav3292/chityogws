@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
 
@@ -44,8 +45,34 @@ public class UserLevelDao {
 		query.setString("level", level);
 		query.setLong("userLevelId", userLevelInfo.getUserLevelId());
 		query.setLong("uid", userInfo.getUserId());
-		query.executeUpdate();
 		return query.executeUpdate();
+	}
+
+	public int updateUserLevel(UserInfo userInfo, UserBean user) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserLevelInfo u SET u.startDate = :date , u.totalNumberOfDays = :totalNumberOfDays where  userInfo.userId = :uid");
+		query.setDate("date", user.getDate());
+		query.setLong("uid", userInfo.getUserId());
+		query.setString("totalNumberOfDays", "30");
+		return query.executeUpdate();
+	}
+
+	public int updateLevelTestSubmittion(UserLevelInfo userLevelInfo,
+			UserBean user) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserLevelInfo u SET u.completedNumberOfDays = :completedNumberOfDays , u.numberOfTrue = :numberOfTrue where  userInfo.userId = :uid");
+		query.setDate("completedNumberOfDays", user.getDate());
+		query.setDate("numberOfTrue", user.getDate());
+		query.setLong("uid", userInfo.getUserId());
+		query.setString("completedDays", "30");
+		return query.executeUpdate();
+		return 0;
 	}
 
 }

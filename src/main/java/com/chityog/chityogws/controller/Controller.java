@@ -27,6 +27,7 @@ import com.chityog.chityogws.service.UserLevelService;
 import com.chityog.chityogws.service.UserService;
 import com.chityog.chityogws.utils.Config;
 import com.chityog.chityogws.utils.ImageUpload;
+import com.chityog.chityogws.utils.LevelCal;
 import com.chityog.chityogws.validations.UserValidations;
 
 @RestController
@@ -113,7 +114,8 @@ public class Controller {
 				}
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
-				UserBean userBean = ConversionHelper.convertUserInfoToUserBean(userInfo, userLevelInfo);
+				UserBean userBean = ConversionHelper.convertUserInfoToUserBean(
+						userInfo, userLevelInfo);
 				map.put("user", userBean);
 			}
 
@@ -341,7 +343,8 @@ public class Controller {
 				}
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
-				UserBean userBean = ConversionHelper.convertUserInfoToUserBean(userInfo, userLevelInfo);
+				UserBean userBean = ConversionHelper.convertUserInfoToUserBean(
+						userInfo, userLevelInfo);
 				map.put("user", userBean);
 			}
 		}
@@ -466,7 +469,8 @@ public class Controller {
 					}
 					UserLevelInfo userLevelInfo = userLevelService
 							.checkExistingUserLevel(userInfo);
-					UserBean userBean = ConversionHelper.convertUserInfoToUserBean(userInfo, userLevelInfo);
+					UserBean userBean = ConversionHelper
+							.convertUserInfoToUserBean(userInfo, userLevelInfo);
 					map.put("user", userBean);
 
 					map.put("status", Config.SUCCESS);
@@ -479,6 +483,69 @@ public class Controller {
 
 		return map;
 
+	}
+
+	@RequestMapping(value = "/startTest", method = RequestMethod.POST)
+	public Map<String, Object> startTest(@RequestBody UserBean user) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkStartTest(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				int result = userLevelService.updateUserLevel(userInfo, user);
+				if (result > 0) {
+					UserLevelInfo userLevelInfo = userLevelService
+							.checkExistingUserLevel(userInfo);
+
+					map.put("msg",
+							"Your routine has been start up ypu can give test from tomorrow");
+					map.put("level", userLevelInfo);
+				} else {
+					map.put("status", Config.ERROR);
+					map.put("msg", "Database error occured");
+				}
+			}
+		}
+		return map;
+
+	}
+
+	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
+	public Map<String, Object> submitTest(@RequestBody UserBean user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkStartTest(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				UserLevelInfo userLevelInfo = userLevelService
+						.checkExistingUserLevel(userInfo);
+				int daysFromStartDate = LevelCal.getDatesDifference(
+						userLevelInfo.getStartDate(), user.getDate());
+				switch (daysFromStartDate) {
+				case 1:
+					int result = userLevelService.updateLevelTestSubmittion(userLevelInfo,user);
+					break;
+
+				default:
+					break;
+				}
+				
+			}
+		}
+		return map;
 	}
 
 }

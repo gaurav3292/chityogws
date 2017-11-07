@@ -3,6 +3,7 @@ package com.chityog.chityogws.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.dao.UserLevelDao;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
@@ -25,6 +26,17 @@ public class UserLevelService {
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
 			String level) {
 		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level);
+	}
+
+	public int updateUserLevel(UserInfo userInfo, UserBean user) {
+		// TODO Auto-generated method stub
+		return userLevelDao.updateUserLevel(userInfo,user);
+	}
+
+	public int updateLevelTestSubmittion(UserLevelInfo userLevelInfo,
+			UserBean user) {
+		// TODO Auto-generated method stub
+		return userLevelDao.updateLevelTestSubmittion(userLevelInfo,user);
 	}
 
 }

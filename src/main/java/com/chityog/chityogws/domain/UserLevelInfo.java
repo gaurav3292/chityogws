@@ -1,6 +1,7 @@
 package com.chityog.chityogws.domain;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,26 +21,34 @@ import org.hibernate.annotations.Parameter;
 		@Parameter(name = "increment_size", value = "10"),
 		@Parameter(name = "optimizer", value = "pooled") })
 @SuppressWarnings("serial")
-public class UserLevelInfo implements Serializable{
-	
+public class UserLevelInfo implements Serializable {
 
 	@Id
 	@GeneratedValue(generator = "UserLevelInfo")
 	@Column(name = "USER_LEVEL_ID")
 	private Long userLevelId;
-	
+
 	@Column(name = "USER_LEVEL")
 	private String userLevel;
-	
+
 	@Column(name = "USER_DAYS_TOTAL")
 	private String totalNumberOfDays;
-	
+
 	@Column(name = "USER_DAYS_COMPLETED")
 	private String completedNumberOfDays;
-	
+
 	@Column(name = "USER_DAYS_SKIPPED")
 	private String skippedNumberOfDays;
+
+	@Column(name = "USER_LEVEL_START_DATE")
+	private Date startDate;
+
+	@Column(name = "USER_LEVEL_RESULT")
+	private String isResult;
 	
+	@Column(name = "NUMBER_OF_TRUE")
+	private int numberOfTrue;
+
 	@OneToOne
 	@JoinColumn(name = "USER_ID")
 	private UserInfo userInfo;
@@ -84,12 +93,36 @@ public class UserLevelInfo implements Serializable{
 		this.skippedNumberOfDays = skippedNumberOfDays;
 	}
 
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getIsResult() {
+		return isResult;
+	}
+
+	public void setIsResult(String isResult) {
+		this.isResult = isResult;
+	}
+
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}
 
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+	}
+
+	public int getNumberOfTrue() {
+		return numberOfTrue;
+	}
+
+	public void setNumberOfTrue(int numberOfTrue) {
+		this.numberOfTrue = numberOfTrue;
 	}
 	
 	
