@@ -8,76 +8,72 @@ public class UserLevelBean implements Serializable {
 
 	private Long userLevelId;
 	private String userLevel;
-	private String totalNumberOfDays;
-	private String completedNumberOfDays;
-	private String skippedNumberOfDays;
+	private Integer totalNumberOfDays;
+	private Integer completedNumberOfDays;
+	private Integer skippedNumberOfDays;
 	private Date startDate;
 	private String isResult;
-	private int numberOfTrue;
-
+	private Integer numberOfTrue;
+	private Integer totalNumberOfQuestions;
+	
 	public Long getUserLevelId() {
 		return userLevelId;
 	}
-
 	public void setUserLevelId(Long userLevelId) {
 		this.userLevelId = userLevelId;
 	}
-
 	public String getUserLevel() {
 		return userLevel;
 	}
-
 	public void setUserLevel(String userLevel) {
 		this.userLevel = userLevel;
 	}
-
-	public String getTotalNumberOfDays() {
+	public Integer getTotalNumberOfDays() {
 		return totalNumberOfDays;
 	}
-
-	public void setTotalNumberOfDays(String totalNumberOfDays) {
+	public void setTotalNumberOfDays(Integer totalNumberOfDays) {
 		this.totalNumberOfDays = totalNumberOfDays;
 	}
-
-	public String getCompletedNumberOfDays() {
+	public Integer getCompletedNumberOfDays() {
 		return completedNumberOfDays;
 	}
-
-	public void setCompletedNumberOfDays(String completedNumberOfDays) {
+	public void setCompletedNumberOfDays(Integer completedNumberOfDays) {
 		this.completedNumberOfDays = completedNumberOfDays;
 	}
-
-	public String getSkippedNumberOfDays() {
+	public Integer getSkippedNumberOfDays() {
 		return skippedNumberOfDays;
 	}
-
-	public void setSkippedNumberOfDays(String skippedNumberOfDays) {
+	public void setSkippedNumberOfDays(Integer skippedNumberOfDays) {
 		this.skippedNumberOfDays = skippedNumberOfDays;
 	}
-
 	public Date getStartDate() {
 		return startDate;
 	}
-
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-
 	public String getIsResult() {
 		return isResult;
 	}
-
 	public void setIsResult(String isResult) {
 		this.isResult = isResult;
 	}
-
-	public int getNumberOfTrue() {
+	public Integer getNumberOfTrue() {
 		return numberOfTrue;
 	}
-
-	public void setNumberOfTrue(int numberOfTrue) {
+	public void setNumberOfTrue(Integer numberOfTrue) {
 		this.numberOfTrue = numberOfTrue;
 	}
+	public Integer getTotalNumberOfQuestions() {
+		return totalNumberOfQuestions;
+	}
+	public void setTotalNumberOfQuestions(Integer totalNumberOfQuestions) {
+		this.totalNumberOfQuestions = totalNumberOfQuestions;
+	}
+	
+	
+	
+	
 	
 	
 

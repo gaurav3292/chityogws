@@ -22,6 +22,7 @@ public class ConversionHelper {
 			level.setStartDate(userLevelInfo.getStartDate());
 			level.setIsResult(userLevelInfo.getIsResult());
 			level.setNumberOfTrue(userLevelInfo.getNumberOfTrue());
+			level.setTotalNumberOfQuestions(userLevelInfo.getTotalNumberOfQuestions());
 		}
 		
 

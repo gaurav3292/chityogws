@@ -32,22 +32,25 @@ public class UserLevelInfo implements Serializable {
 	private String userLevel;
 
 	@Column(name = "USER_DAYS_TOTAL")
-	private String totalNumberOfDays;
+	private Integer totalNumberOfDays;
 
 	@Column(name = "USER_DAYS_COMPLETED")
-	private String completedNumberOfDays;
+	private Integer completedNumberOfDays;
 
 	@Column(name = "USER_DAYS_SKIPPED")
-	private String skippedNumberOfDays;
+	private Integer skippedNumberOfDays;
 
 	@Column(name = "USER_LEVEL_START_DATE")
 	private Date startDate;
 
 	@Column(name = "USER_LEVEL_RESULT")
 	private String isResult;
-	
+
 	@Column(name = "NUMBER_OF_TRUE")
-	private int numberOfTrue;
+	private Integer numberOfTrue;
+
+	@Column(name = "NUMBER_OF_QUESTIONS")
+	private Integer totalNumberOfQuestions;
 
 	@OneToOne
 	@JoinColumn(name = "USER_ID")
@@ -69,27 +72,27 @@ public class UserLevelInfo implements Serializable {
 		this.userLevel = userLevel;
 	}
 
-	public String getTotalNumberOfDays() {
+	public Integer getTotalNumberOfDays() {
 		return totalNumberOfDays;
 	}
 
-	public void setTotalNumberOfDays(String totalNumberOfDays) {
+	public void setTotalNumberOfDays(Integer totalNumberOfDays) {
 		this.totalNumberOfDays = totalNumberOfDays;
 	}
 
-	public String getCompletedNumberOfDays() {
+	public Integer getCompletedNumberOfDays() {
 		return completedNumberOfDays;
 	}
 
-	public void setCompletedNumberOfDays(String completedNumberOfDays) {
+	public void setCompletedNumberOfDays(Integer completedNumberOfDays) {
 		this.completedNumberOfDays = completedNumberOfDays;
 	}
 
-	public String getSkippedNumberOfDays() {
+	public Integer getSkippedNumberOfDays() {
 		return skippedNumberOfDays;
 	}
 
-	public void setSkippedNumberOfDays(String skippedNumberOfDays) {
+	public void setSkippedNumberOfDays(Integer skippedNumberOfDays) {
 		this.skippedNumberOfDays = skippedNumberOfDays;
 	}
 
@@ -109,6 +112,14 @@ public class UserLevelInfo implements Serializable {
 		this.isResult = isResult;
 	}
 
+	public Integer getNumberOfTrue() {
+		return numberOfTrue;
+	}
+
+	public void setNumberOfTrue(Integer numberOfTrue) {
+		this.numberOfTrue = numberOfTrue;
+	}
+
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}
@@ -117,14 +128,12 @@ public class UserLevelInfo implements Serializable {
 		this.userInfo = userInfo;
 	}
 
-	public int getNumberOfTrue() {
-		return numberOfTrue;
+	public Integer getTotalNumberOfQuestions() {
+		return totalNumberOfQuestions;
 	}
 
-	public void setNumberOfTrue(int numberOfTrue) {
-		this.numberOfTrue = numberOfTrue;
+	public void setTotalNumberOfQuestions(Integer totalNumberOfQuestions) {
+		this.totalNumberOfQuestions = totalNumberOfQuestions;
 	}
-	
-	
 
 }

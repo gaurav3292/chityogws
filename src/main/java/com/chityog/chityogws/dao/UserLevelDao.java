@@ -61,18 +61,18 @@ public class UserLevelDao {
 	}
 
 	public int updateLevelTestSubmittion(UserLevelInfo userLevelInfo,
-			UserBean user) {
+			UserBean user, int daysFromStartDate) {
 		// TODO Auto-generated method stub
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"UPDATE  UserLevelInfo u SET u.completedNumberOfDays = :completedNumberOfDays , u.numberOfTrue = :numberOfTrue where  userInfo.userId = :uid");
-		query.setDate("completedNumberOfDays", user.getDate());
-		query.setDate("numberOfTrue", user.getDate());
-		query.setLong("uid", userInfo.getUserId());
-		query.setString("completedDays", "30");
+						"UPDATE  UserLevelInfo u SET u.completedNumberOfDays = :completedNumberOfDays , u.numberOfTrue = :numberOfTrue , u.totalNumberOfQuestions = :totalNumberOfQuestions . u.isResult = :isResult  where  userInfo.userId = :uid");
+		query.setInteger("completedNumberOfDays",daysFromStartDate);
+		query.setInteger("numberOfTrue", user.getNumberOfTrue());
+		query.setInteger("totalNumberOfQuestions", user.getTotalNumberOfQuestions());
+		query.setString("isResult", user.getIsResult());
+		query.setLong("uid", user.getUserId());
 		return query.executeUpdate();
-		return 0;
 	}
 
 }

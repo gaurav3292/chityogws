@@ -536,10 +536,26 @@ public class Controller {
 						userLevelInfo.getStartDate(), user.getDate());
 				switch (daysFromStartDate) {
 				case 1:
-					int result = userLevelService.updateLevelTestSubmittion(userLevelInfo,user);
-					break;
+					int result = userLevelService.updateLevelTestSubmittion(userLevelInfo,user,daysFromStartDate);
+					if(result>0){
+						userLevelInfo = userLevelService
+								.checkExistingUserLevel(userInfo);
+						map.put("level", userLevelInfo);
+						map.put("msg", "Thanks for submitting the test");
+						
+					}else{
+						map.put("status", Config.ERROR);
+						map.put("msg", "Could not submit your test");
+					}
+					return map;
 
 				default:
+					
+					if(userLevelInfo.getTotalNumberOfDays()==0){
+						
+					}
+					
+					
 					break;
 				}
 				

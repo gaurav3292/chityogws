@@ -19,11 +19,13 @@ public class UserBean implements Serializable {
 	private String newPassword;
 	private String otp;
 	private int numberOfTrue;
+	private int totalNumberOfQuestions;
 	private String profilePic;
 	private String isEmailVerify;
 	private String token;
 	private String levelNumber;
 	private Date date;
+	private String isResult;
 	private UserLevelBean level;
 
 	public Long getUserId() {
@@ -176,6 +178,22 @@ public class UserBean implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public int getTotalNumberOfQuestions() {
+		return totalNumberOfQuestions;
+	}
+
+	public void setTotalNumberOfQuestions(int totalNumberOfQuestions) {
+		this.totalNumberOfQuestions = totalNumberOfQuestions;
+	}
+
+	public String getIsResult() {
+		return isResult;
+	}
+
+	public void setIsResult(String isResult) {
+		this.isResult = isResult;
 	}
 
 	

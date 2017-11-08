@@ -34,9 +34,9 @@ public class UserLevelService {
 	}
 
 	public int updateLevelTestSubmittion(UserLevelInfo userLevelInfo,
-			UserBean user) {
+			UserBean user, int daysFromStartDate) {
 		// TODO Auto-generated method stub
-		return userLevelDao.updateLevelTestSubmittion(userLevelInfo,user);
+		return userLevelDao.updateLevelTestSubmittion(userLevelInfo,user,daysFromStartDate);
 	}
 
 }
