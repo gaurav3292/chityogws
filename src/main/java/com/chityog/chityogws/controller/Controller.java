@@ -535,7 +535,7 @@ public class Controller {
 				int daysFromStartDate = LevelCal.getDatesDifference(
 						userLevelInfo.getStartDate(), user.getDate());
 				switch (daysFromStartDate) {
-				case 1:
+				default:
 					int result = userLevelService.updateLevelTestSubmittion(userLevelInfo,user,daysFromStartDate);
 					if(result>0){
 						userLevelInfo = userLevelService
@@ -549,14 +549,7 @@ public class Controller {
 					}
 					return map;
 
-				default:
-					
-					if(userLevelInfo.getTotalNumberOfDays()==0){
-						
-					}
-					
-					
-					break;
+				
 				}
 				
 			}

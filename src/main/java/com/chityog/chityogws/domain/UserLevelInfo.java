@@ -51,6 +51,9 @@ public class UserLevelInfo implements Serializable {
 
 	@Column(name = "NUMBER_OF_QUESTIONS")
 	private Integer totalNumberOfQuestions;
+	
+	@Column(name = "USER_DAYS_ATTENDED")
+	private Integer attendedNumberOfDays;
 
 	@OneToOne
 	@JoinColumn(name = "USER_ID")
@@ -135,5 +138,15 @@ public class UserLevelInfo implements Serializable {
 	public void setTotalNumberOfQuestions(Integer totalNumberOfQuestions) {
 		this.totalNumberOfQuestions = totalNumberOfQuestions;
 	}
+
+	public Integer getAttendedNumberOfDays() {
+		return attendedNumberOfDays;
+	}
+
+	public void setAttendedNumberOfDays(Integer attendedNumberOfDays) {
+		this.attendedNumberOfDays = attendedNumberOfDays;
+	}
+	
+	
 
 }

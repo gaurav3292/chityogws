@@ -15,66 +15,86 @@ public class UserLevelBean implements Serializable {
 	private String isResult;
 	private Integer numberOfTrue;
 	private Integer totalNumberOfQuestions;
-	
+	private Integer attendedNumberOfDays;
+
 	public Long getUserLevelId() {
 		return userLevelId;
 	}
+
 	public void setUserLevelId(Long userLevelId) {
 		this.userLevelId = userLevelId;
 	}
+
 	public String getUserLevel() {
 		return userLevel;
 	}
+
 	public void setUserLevel(String userLevel) {
 		this.userLevel = userLevel;
 	}
+
 	public Integer getTotalNumberOfDays() {
 		return totalNumberOfDays;
 	}
+
 	public void setTotalNumberOfDays(Integer totalNumberOfDays) {
 		this.totalNumberOfDays = totalNumberOfDays;
 	}
+
 	public Integer getCompletedNumberOfDays() {
 		return completedNumberOfDays;
 	}
+
 	public void setCompletedNumberOfDays(Integer completedNumberOfDays) {
 		this.completedNumberOfDays = completedNumberOfDays;
 	}
+
 	public Integer getSkippedNumberOfDays() {
 		return skippedNumberOfDays;
 	}
+
 	public void setSkippedNumberOfDays(Integer skippedNumberOfDays) {
 		this.skippedNumberOfDays = skippedNumberOfDays;
 	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
+
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+
 	public String getIsResult() {
 		return isResult;
 	}
+
 	public void setIsResult(String isResult) {
 		this.isResult = isResult;
 	}
+
 	public Integer getNumberOfTrue() {
 		return numberOfTrue;
 	}
+
 	public void setNumberOfTrue(Integer numberOfTrue) {
 		this.numberOfTrue = numberOfTrue;
 	}
+
 	public Integer getTotalNumberOfQuestions() {
 		return totalNumberOfQuestions;
 	}
+
 	public void setTotalNumberOfQuestions(Integer totalNumberOfQuestions) {
 		this.totalNumberOfQuestions = totalNumberOfQuestions;
 	}
-	
-	
-	
-	
-	
-	
+
+	public Integer getAttendedNumberOfDays() {
+		return attendedNumberOfDays;
+	}
+
+	public void setAttendedNumberOfDays(Integer attendedNumberOfDays) {
+		this.attendedNumberOfDays = attendedNumberOfDays;
+	}
 
 }
