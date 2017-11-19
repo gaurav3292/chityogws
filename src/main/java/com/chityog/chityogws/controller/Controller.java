@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,20 +16,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chityog.chityogws.bean.LevelResultBean;
 import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.ForgotPasswordInfo;
+import com.chityog.chityogws.domain.LevelResultInfo;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
 import com.chityog.chityogws.helper.ConversionHelper;
 import com.chityog.chityogws.mail.MailMail;
 import com.chityog.chityogws.security.MD5;
 import com.chityog.chityogws.service.CountryService;
+import com.chityog.chityogws.service.LevelResultService;
 import com.chityog.chityogws.service.UserLevelService;
 import com.chityog.chityogws.service.UserService;
 import com.chityog.chityogws.utils.Config;
 import com.chityog.chityogws.utils.ImageUpload;
 import com.chityog.chityogws.utils.LevelCal;
 import com.chityog.chityogws.validations.UserValidations;
+import com.google.gson.Gson;
 
 @RestController
 public class Controller {
@@ -38,6 +43,9 @@ public class Controller {
 
 	@Autowired
 	private UserLevelService userLevelService;
+
+	@Autowired
+	private LevelResultService levelResultService;
 
 	@Autowired
 	private UserService userService;
@@ -294,7 +302,7 @@ public class Controller {
 
 					} else {
 						levelResult = userLevelService.updateUserLevel(
-								userInfo, userLevelInfo, level);
+								userInfo, userLevelInfo, level, 30);
 					}
 
 					userLevelInfo = userLevelService
@@ -499,7 +507,8 @@ public class Controller {
 				map.put("status", Config.ERROR);
 				map.put("msg", "User does not exits");
 			} else {
-				int result = userLevelService.updateUserLevel(userInfo, user);
+				int result = userLevelService.updateUserLevelInfo(userInfo,
+						user);
 				if (result > 0) {
 					UserLevelInfo userLevelInfo = userLevelService
 							.checkExistingUserLevel(userInfo);
@@ -536,22 +545,73 @@ public class Controller {
 						userLevelInfo.getStartDate(), user.getDate());
 				switch (daysFromStartDate) {
 				default:
-					int result = userLevelService.updateLevelTestSubmittion(userLevelInfo,user,daysFromStartDate);
-					if(result>0){
+					int result = userLevelService.updateLevelTestSubmittion(
+							userLevelInfo, user, daysFromStartDate);
+					if (result > 0) {
 						userLevelInfo = userLevelService
 								.checkExistingUserLevel(userInfo);
-						map.put("level", userLevelInfo);
-						map.put("msg", "Thanks for submitting the test");
-						
-					}else{
+
+						LevelResultInfo levelResultInfo = levelResultService
+								.checkExistingLevelResult(userLevelInfo);
+						int levelResult;
+						double percent = LevelCal.getLevelResult(userLevelInfo);
+						if (levelResultInfo == null) {
+
+							levelResult = levelResultService.createLevelResult(
+									userLevelInfo, percent);
+						} else {
+							levelResult = levelResultService.updateLevelResult(
+									levelResultInfo, userLevelInfo, percent);
+						}
+
+						if (levelResult > 0) {
+
+							levelResultInfo = levelResultService
+									.checkExistingLevelResult(userLevelInfo);
+
+							Gson gson = new Gson();
+							String jsonObject = gson.toJson(levelResultInfo);
+							LevelResultBean levelResultBean = gson.fromJson(
+									jsonObject, LevelResultBean.class);
+
+							if (userLevelInfo.getTotalNumberOfDays() <= userLevelInfo
+									.getCompletedNumberOfDays()) {
+								Map<String, Object> updatedLevelMap = LevelCal
+										.getUpdatedLevel(userLevelInfo,
+												levelResultInfo);
+
+								String levelStr = (String) updatedLevelMap
+										.get("level");
+								int totalNoOfDays = (int) updatedLevelMap
+										.get("days");
+								int r = userLevelService.updateUserLevel(
+										userInfo, userLevelInfo, levelStr,
+										totalNoOfDays);
+								if (r > 0) {
+									map.put("level", userLevelInfo);
+									map.put("result", levelResultBean);
+									map.put("msg", updatedLevelMap.get("msg"));
+								}
+
+							} else {
+
+								map.put("level", userLevelInfo);
+								map.put("result", levelResultBean);
+								map.put("msg", "Thanks for submitting the test");
+							}
+						} else {
+							map.put("status", Config.ERROR);
+							map.put("msg", "Error result generation");
+						}
+
+					} else {
 						map.put("status", Config.ERROR);
 						map.put("msg", "Could not submit your test");
 					}
 					return map;
 
-				
 				}
-				
+
 			}
 		}
 		return map;

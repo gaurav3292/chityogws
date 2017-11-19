@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
+import com.chityog.chityogws.utils.Config;
 
 @Repository
 @Transactional
@@ -37,26 +38,65 @@ public class UserLevelDao {
 	}
 
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
-			String level) {
+			String level,int numberOfDays) {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"UPDATE  UserLevelInfo u SET u.userLevel = :level where u.userLevelId = :userLevelId and  userInfo.userId = :uid");
+						"UPDATE  UserLevelInfo u SET u.userLevel = :level , "
+						+ "u.totalNumberOfDays = :totalNumberOfDays , "
+						+ "u.completedNumberOfDays = :completedNumberOfDays , "
+						+ "u.skippedNumberOfDays = :skippedNumberOfDays , "
+						+ "u.startDate = :startDate , u.isResult = :isResult ,"
+						+ " u.numberOfTrue = :numberOfTrue ,"
+						+ " u.totalNumberOfQuestions = :totalNumberOfQuestions ,"
+						+ " u.attendedNumberOfDays = :attendedNumberOfDays "
+						+ " where u.userLevelId = :userLevelId and  userInfo.userId = :uid");
 		query.setString("level", level);
+		query.setInteger("totalNumberOfDays", numberOfDays);
+		query.setInteger("completedNumberOfDays", 0);
+		query.setInteger("skippedNumberOfDays", 0);
+		query.setDate("startDate", null);
+		query.setString("isResult", Config.NO);
+		query.setInteger("numberOfTrue", 0);
+		query.setInteger("totalNumberOfQuestions", 0);
+		query.setInteger("attendedNumberOfDays", 0);
 		query.setLong("userLevelId", userLevelInfo.getUserLevelId());
 		query.setLong("uid", userInfo.getUserId());
 		return query.executeUpdate();
 	}
 
-	public int updateUserLevel(UserInfo userInfo, UserBean user) {
+	public int updateUserLevelInfo(UserInfo userInfo, UserBean user) {
 		// TODO Auto-generated method stub
+		Integer totalDays = null;
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
 						"UPDATE  UserLevelInfo u SET u.startDate = :date , u.totalNumberOfDays = :totalNumberOfDays where  userInfo.userId = :uid");
 		query.setDate("date", user.getDate());
 		query.setLong("uid", userInfo.getUserId());
-		query.setInteger("totalNumberOfDays", 30);
+
+		switch (user.getLevelNumber()) {
+		case "1":
+			totalDays = new Integer(30);
+			break;
+
+		case "2":
+			totalDays = new Integer(30);
+			break;
+
+		case "3":
+			totalDays = new Integer(15);
+			break;
+
+		case "4":
+			totalDays = new Integer(15);
+			break;
+
+		default:
+			break;
+		}
+
+		query.setInteger("totalNumberOfDays", totalDays);
 		return query.executeUpdate();
 	}
 
@@ -67,13 +107,15 @@ public class UserLevelDao {
 				.getCurrentSession()
 				.createQuery(
 						"UPDATE  UserLevelInfo u SET u.completedNumberOfDays = :completedNumberOfDays , u.numberOfTrue = :numberOfTrue , u.totalNumberOfQuestions = :totalNumberOfQuestions , u.isResult = :isResult , u.attendedNumberOfDays = :attendedNumberOfDays , u.skippedNumberOfDays = :skippedNumberOfDays  where  userInfo.userId = :uid");
-		query.setInteger("completedNumberOfDays",daysFromStartDate);
-		query.setInteger("numberOfTrue", user.getNumberOfTrue());
-		query.setInteger("totalNumberOfQuestions", user.getTotalNumberOfQuestions());
-		
-		int daysAttend = userLevelInfo.getAttendedNumberOfDays()+1;
-		int daysSkipped = daysFromStartDate-daysAttend;
-		
+		query.setInteger("completedNumberOfDays", daysFromStartDate);
+		query.setInteger("numberOfTrue",
+				user.getNumberOfTrue() + userLevelInfo.getNumberOfTrue());
+		query.setInteger("totalNumberOfQuestions",
+				user.getTotalNumberOfQuestions());
+
+		int daysAttend = userLevelInfo.getAttendedNumberOfDays() + 1;
+		int daysSkipped = daysFromStartDate - daysAttend;
+
 		query.setInteger("attendedNumberOfDays", daysAttend);
 		query.setInteger("skippedNumberOfDays", daysSkipped);
 		query.setString("isResult", user.getIsResult());
