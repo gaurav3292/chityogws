@@ -588,6 +588,8 @@ public class Controller {
 										userInfo, userLevelInfo, levelStr,
 										totalNoOfDays);
 								if (r > 0) {
+									userLevelInfo = userLevelService
+											.checkExistingUserLevel(userInfo);
 									map.put("level", userLevelInfo);
 									map.put("result", levelResultBean);
 									map.put("msg", updatedLevelMap.get("msg"));
@@ -615,6 +617,49 @@ public class Controller {
 			}
 		}
 		return map;
+	}
+
+	@RequestMapping(value = "/levelResult", method = RequestMethod.POST)
+	public Map<String, Object> levelResult(@RequestBody UserBean user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkLevelResult(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				UserLevelInfo userLevelInfo = userLevelService
+						.checkExistingUserLevel(userInfo);
+				if (userLevelInfo != null) {
+					LevelResultInfo levelResultInfo = levelResultService
+							.checkExistingLevelResult(userLevelInfo);
+					if (levelResultInfo != null) {
+						Gson gson = new Gson();
+						String jsonObject = gson.toJson(levelResultInfo);
+						LevelResultBean levelResultBean = gson.fromJson(
+								jsonObject, LevelResultBean.class);
+
+						map.put("result", levelResultBean);
+						map.put("level", userLevelInfo);
+						map.put("msg", "Your level result");
+					} else {
+						map.put("status", Config.ERROR);
+						map.put("msg", "Result not found!");
+					}
+
+				} else {
+					map.put("status", Config.ERROR);
+					map.put("msg", "User level not found!");
+				}
+
+			}
+		}
+		return map;
+
 	}
 
 }
