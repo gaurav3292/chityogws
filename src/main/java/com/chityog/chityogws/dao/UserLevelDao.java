@@ -1,5 +1,7 @@
 package com.chityog.chityogws.dao;
 
+import java.sql.Date;
+
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,7 @@ public class UserLevelDao {
 	}
 
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
-			String level,int numberOfDays) {
+			String level,int numberOfDays,Date date) {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
@@ -55,7 +57,7 @@ public class UserLevelDao {
 		query.setInteger("totalNumberOfDays", numberOfDays);
 		query.setInteger("completedNumberOfDays", 0);
 		query.setInteger("skippedNumberOfDays", 0);
-		query.setDate("startDate", null);
+		query.setDate("startDate", date);
 		query.setString("isResult", Config.NO);
 		query.setInteger("numberOfTrue", 0);
 		query.setInteger("totalNumberOfQuestions", 0);

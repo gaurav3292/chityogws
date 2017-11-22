@@ -1,6 +1,7 @@
 package com.chityog.chityogws.domain;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +32,9 @@ public class LevelResultInfo implements Serializable{
 	@Column(name = "LEVEL_RESULT_PERCENT")
 	private Double levelResultPercent;
 	
+	@Column(name = "LAST_SUBMITTION_DATE")
+	private Date lastSubmittionDate;
+	
 	@OneToOne
 	@JoinColumn(name = "USER_LEVEL_ID")
 	private UserLevelInfo userLevelInfo;
@@ -58,6 +62,16 @@ public class LevelResultInfo implements Serializable{
 	public void setUserLevelInfo(UserLevelInfo userLevelInfo) {
 		this.userLevelInfo = userLevelInfo;
 	}
+
+	public Date getLastSubmittionDate() {
+		return lastSubmittionDate;
+	}
+
+	public void setLastSubmittionDate(Date lastSubmittionDate) {
+		this.lastSubmittionDate = lastSubmittionDate;
+	}
+	
+	
 	
 	
 

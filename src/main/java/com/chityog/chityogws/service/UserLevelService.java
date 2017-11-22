@@ -1,5 +1,7 @@
 package com.chityog.chityogws.service;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,8 @@ public class UserLevelService {
 	}
 
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
-			String level,int numberOfDays) {
-		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level,numberOfDays);
+			String level,int numberOfDays,Date date) {
+		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level,numberOfDays,date);
 	}
 
 	public int updateUserLevelInfo(UserInfo userInfo, UserBean user) {

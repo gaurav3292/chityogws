@@ -302,7 +302,7 @@ public class Controller {
 
 					} else {
 						levelResult = userLevelService.updateUserLevel(
-								userInfo, userLevelInfo, level, 30);
+								userInfo, userLevelInfo, level, 30,null);
 					}
 
 					userLevelInfo = userLevelService
@@ -553,15 +553,24 @@ public class Controller {
 
 						LevelResultInfo levelResultInfo = levelResultService
 								.checkExistingLevelResult(userLevelInfo);
-						int levelResult;
+
+						int levelResult = 0;
 						double percent = LevelCal.getLevelResult(userLevelInfo);
 						if (levelResultInfo == null) {
 
 							levelResult = levelResultService.createLevelResult(
-									userLevelInfo, percent);
+									userLevelInfo, percent, user);
 						} else {
-							levelResult = levelResultService.updateLevelResult(
-									levelResultInfo, userLevelInfo, percent);
+
+							if (levelResultInfo.getLastSubmittionDate().equals(
+									user.getDate())) {
+
+							} else {
+
+								levelResult = levelResultService
+										.updateLevelResult(levelResultInfo,
+												userLevelInfo, percent, user);
+							}
 						}
 
 						if (levelResult > 0) {
@@ -586,7 +595,7 @@ public class Controller {
 										.get("days");
 								int r = userLevelService.updateUserLevel(
 										userInfo, userLevelInfo, levelStr,
-										totalNoOfDays);
+										totalNoOfDays,user.getDate());
 								if (r > 0) {
 									userLevelInfo = userLevelService
 											.checkExistingUserLevel(userInfo);
@@ -603,7 +612,7 @@ public class Controller {
 							}
 						} else {
 							map.put("status", Config.ERROR);
-							map.put("msg", "Error result generation");
+							map.put("msg", "You have already submitted the test for this day");
 						}
 
 					} else {
