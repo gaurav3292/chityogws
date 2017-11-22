@@ -43,7 +43,7 @@ public class LevelResultDao {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"UPDATE  LevelResultInfo l SET l.levelResultPercent = :levelResultPercent and l.lastSubmittionDate = :lastSubmittionDate where l.levelResultId = :levelResultId and  userLevelInfo.userLevelId = :userLevelId");
+						"UPDATE  LevelResultInfo l SET l.levelResultPercent = :levelResultPercent , l.lastSubmittionDate = :lastSubmittionDate where l.levelResultId = :levelResultId and  userLevelInfo.userLevelId = :userLevelId");
 		query.setDouble("levelResultPercent", percent);
 		query.setLong("levelResultId", levelResultInfo.getLevelResultId());
 		query.setLong("userLevelId", userLevelInfo.getUserLevelId());

@@ -302,7 +302,7 @@ public class Controller {
 
 					} else {
 						levelResult = userLevelService.updateUserLevel(
-								userInfo, userLevelInfo, level, 30,null);
+								userInfo, userLevelInfo, level, 30, null);
 					}
 
 					userLevelInfo = userLevelService
@@ -545,32 +545,46 @@ public class Controller {
 						userLevelInfo.getStartDate(), user.getDate());
 				switch (daysFromStartDate) {
 				default:
-					int result = userLevelService.updateLevelTestSubmittion(
-							userLevelInfo, user, daysFromStartDate);
-					if (result > 0) {
-						userLevelInfo = userLevelService
-								.checkExistingUserLevel(userInfo);
+					LevelResultInfo levelResultInfo = levelResultService
+							.checkExistingLevelResult(userLevelInfo);
 
-						LevelResultInfo levelResultInfo = levelResultService
-								.checkExistingLevelResult(userLevelInfo);
+					if (true) {
+						
 
 						int levelResult = 0;
-						double percent = LevelCal.getLevelResult(userLevelInfo);
+
 						if (levelResultInfo == null) {
+
+							int result = userLevelService
+									.updateLevelTestSubmittion(userLevelInfo,
+											user, daysFromStartDate);
+							userLevelInfo = userLevelService
+									.checkExistingUserLevel(userInfo);
+							double percent = LevelCal
+									.getLevelResult(userLevelInfo);
 
 							levelResult = levelResultService.createLevelResult(
 									userLevelInfo, percent, user);
 						} else {
 
-							if (levelResultInfo.getLastSubmittionDate().equals(
-									user.getDate())) {
+							if (levelResultInfo.getLastSubmittionDate()
+									.getDate() == user.getDate().getDate()) {
 
 							} else {
+								int result = userLevelService
+										.updateLevelTestSubmittion(
+												userLevelInfo, user,
+												daysFromStartDate);
+								userLevelInfo = userLevelService
+										.checkExistingUserLevel(userInfo);
+								double percent = LevelCal
+										.getLevelResult(userLevelInfo);
 
 								levelResult = levelResultService
 										.updateLevelResult(levelResultInfo,
 												userLevelInfo, percent, user);
 							}
+
 						}
 
 						if (levelResult > 0) {
@@ -595,7 +609,7 @@ public class Controller {
 										.get("days");
 								int r = userLevelService.updateUserLevel(
 										userInfo, userLevelInfo, levelStr,
-										totalNoOfDays,user.getDate());
+										totalNoOfDays, user.getDate());
 								if (r > 0) {
 									userLevelInfo = userLevelService
 											.checkExistingUserLevel(userInfo);
@@ -612,12 +626,10 @@ public class Controller {
 							}
 						} else {
 							map.put("status", Config.ERROR);
-							map.put("msg", "You have already submitted the test for this day");
+							map.put("msg",
+									"You have already submitted test for this day");
 						}
 
-					} else {
-						map.put("status", Config.ERROR);
-						map.put("msg", "Could not submit your test");
 					}
 					return map;
 
