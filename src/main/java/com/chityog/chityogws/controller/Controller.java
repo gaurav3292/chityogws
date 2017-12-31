@@ -86,7 +86,7 @@ public class Controller {
 
 				userService.createUser(user);
 				userInfo = userService.checkExistingUser(user);
-				map.put("msg", "New user created successfully");
+				map.put("msg", "Thanks for registering, Now proceed with further instructions.");
 				map.put("user", userInfo);
 
 			}
