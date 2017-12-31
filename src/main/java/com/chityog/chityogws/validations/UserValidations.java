@@ -40,14 +40,6 @@ public class UserValidations {
 
 			}
 
-		} else {
-			if (user.getEmail().length() > 0
-					&& user.getEmail().matches(Config.EMAIL_REGEX)) {
-
-			} else {
-				status = Config.ERROR;
-				map.put("msg", "Invalid email address");
-			}
 		}
 
 		map.put("status", status);
