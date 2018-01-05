@@ -86,7 +86,8 @@ public class Controller {
 
 				userService.createUser(user);
 				userInfo = userService.checkExistingUser(user);
-				map.put("msg", "Thanks for registering, Now proceed with further instructions.");
+				map.put("msg",
+						"Thanks for registering, Now proceed with further instructions.");
 				map.put("user", userInfo);
 
 			}
@@ -541,36 +542,25 @@ public class Controller {
 			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
-				int daysFromStartDate = LevelCal.getDatesDifference(
-						userLevelInfo.getStartDate(), user.getDate());
-				switch (daysFromStartDate) {
-				default:
-					LevelResultInfo levelResultInfo = levelResultService
-							.checkExistingLevelResult(userLevelInfo);
+				if (userLevelInfo.getStartDate().getDate() == user.getDate()
+						.getDate()) {
+					map.put("status", Config.ERROR);
+					map.put("msg", "Start submitting your test from tomorrow");
+			
+				} else {
+					int daysFromStartDate = LevelCal.getDatesDifference(
+							userLevelInfo.getStartDate(), user.getDate());
+					switch (daysFromStartDate) {
+					default:
+						LevelResultInfo levelResultInfo = levelResultService
+								.checkExistingLevelResult(userLevelInfo);
 
-					if (true) {
-						
+						if (true) {
 
-						int levelResult = 0;
+							int levelResult = 0;
 
-						if (levelResultInfo == null) {
+							if (levelResultInfo == null) {
 
-							int result = userLevelService
-									.updateLevelTestSubmittion(userLevelInfo,
-											user, daysFromStartDate);
-							userLevelInfo = userLevelService
-									.checkExistingUserLevel(userInfo);
-							double percent = LevelCal
-									.getLevelResult(userLevelInfo);
-
-							levelResult = levelResultService.createLevelResult(
-									userLevelInfo, percent, user);
-						} else {
-
-							if (levelResultInfo.getLastSubmittionDate()
-									.getDate() == user.getDate().getDate()) {
-
-							} else {
 								int result = userLevelService
 										.updateLevelTestSubmittion(
 												userLevelInfo, user,
@@ -581,58 +571,82 @@ public class Controller {
 										.getLevelResult(userLevelInfo);
 
 								levelResult = levelResultService
-										.updateLevelResult(levelResultInfo,
-												userLevelInfo, percent, user);
-							}
-
-						}
-
-						if (levelResult > 0) {
-
-							levelResultInfo = levelResultService
-									.checkExistingLevelResult(userLevelInfo);
-
-							Gson gson = new Gson();
-							String jsonObject = gson.toJson(levelResultInfo);
-							LevelResultBean levelResultBean = gson.fromJson(
-									jsonObject, LevelResultBean.class);
-
-							if (userLevelInfo.getTotalNumberOfDays() <= userLevelInfo
-									.getCompletedNumberOfDays()) {
-								Map<String, Object> updatedLevelMap = LevelCal
-										.getUpdatedLevel(userLevelInfo,
-												levelResultInfo);
-
-								String levelStr = (String) updatedLevelMap
-										.get("level");
-								int totalNoOfDays = (int) updatedLevelMap
-										.get("days");
-								int r = userLevelService.updateUserLevel(
-										userInfo, userLevelInfo, levelStr,
-										totalNoOfDays, user.getDate());
-								if (r > 0) {
-									userLevelInfo = userLevelService
-											.checkExistingUserLevel(userInfo);
-									map.put("level", userLevelInfo);
-									map.put("result", levelResultBean);
-									map.put("msg", updatedLevelMap.get("msg"));
-								}
-
+										.createLevelResult(userLevelInfo,
+												percent, user);
 							} else {
 
-								map.put("level", userLevelInfo);
-								map.put("result", levelResultBean);
-								map.put("msg", "Thanks for submitting the test");
+								if (levelResultInfo.getLastSubmittionDate()
+										.getDate() == user.getDate().getDate()) {
+
+								} else {
+									int result = userLevelService
+											.updateLevelTestSubmittion(
+													userLevelInfo, user,
+													daysFromStartDate);
+									userLevelInfo = userLevelService
+											.checkExistingUserLevel(userInfo);
+									double percent = LevelCal
+											.getLevelResult(userLevelInfo);
+
+									levelResult = levelResultService
+											.updateLevelResult(levelResultInfo,
+													userLevelInfo, percent,
+													user);
+								}
+
 							}
-						} else {
-							map.put("status", Config.ERROR);
-							map.put("msg",
-									"You have already submitted test for this day");
+
+							if (levelResult > 0) {
+
+								levelResultInfo = levelResultService
+										.checkExistingLevelResult(userLevelInfo);
+
+								Gson gson = new Gson();
+								String jsonObject = gson
+										.toJson(levelResultInfo);
+								LevelResultBean levelResultBean = gson
+										.fromJson(jsonObject,
+												LevelResultBean.class);
+
+								if (userLevelInfo.getTotalNumberOfDays() <= userLevelInfo
+										.getCompletedNumberOfDays()) {
+									Map<String, Object> updatedLevelMap = LevelCal
+											.getUpdatedLevel(userLevelInfo,
+													levelResultInfo);
+
+									String levelStr = (String) updatedLevelMap
+											.get("level");
+									int totalNoOfDays = (int) updatedLevelMap
+											.get("days");
+									int r = userLevelService.updateUserLevel(
+											userInfo, userLevelInfo, levelStr,
+											totalNoOfDays, user.getDate());
+									if (r > 0) {
+										userLevelInfo = userLevelService
+												.checkExistingUserLevel(userInfo);
+										map.put("level", userLevelInfo);
+										map.put("result", levelResultBean);
+										map.put("msg",
+												updatedLevelMap.get("msg"));
+									}
+
+								} else {
+
+									map.put("level", userLevelInfo);
+									map.put("result", levelResultBean);
+									map.put("msg",
+											"Thanks for submitting the test");
+								}
+							} else {
+								map.put("status", Config.ERROR);
+								map.put("msg",
+										"You have already submitted test for this day");
+							}
+
 						}
+						return map;
 
 					}
-					return map;
-
 				}
 
 			}

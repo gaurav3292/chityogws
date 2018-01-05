@@ -84,12 +84,26 @@ public class LevelCal {
 			
 		case "3":
 			if (levelResultInfo.getLevelResultPercent() <= 30) {
-				map.put("level", "4");
+				map.put("level", "41");
 				map.put("days", 15);
 				map.put("msg",
-						"Congratulations You have completed level 3 and 1evel 4 has been unlocked");
+						"Congratulations You have completed level 3 and 1evel 4 (Process your thoughts) has been unlocked");
 			} else {
 				map.put("level", "3");
+				map.put("days", 15);
+				map.put("msg",
+						"Oops! you have to repeat the level for next 15 days");
+			}
+			break;
+			
+		case "41":
+			if (levelResultInfo.getLevelResultPercent() <= 30) {
+				map.put("level", "42");
+				map.put("days", 15);
+				map.put("msg",
+						"Congratulations You have completed level Process your thoughts  and 1evel Face the mirror has been unlocked");
+			} else {
+				map.put("level", "41");
 				map.put("days", 15);
 				map.put("msg",
 						"Oops! you have to repeat the level for next 15 days");
