@@ -618,6 +618,9 @@ public class Controller {
 											.get("level");
 									int totalNoOfDays = (int) updatedLevelMap
 											.get("days");
+									if(totalNoOfDays==0){
+										user.setDate(null);
+									}
 									int r = userLevelService.updateUserLevel(
 											userInfo, userLevelInfo, levelStr,
 											totalNoOfDays, user.getDate());

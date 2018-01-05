@@ -39,7 +39,7 @@ public class LevelCal {
 		case "1":
 			if (levelResultInfo.getLevelResultPercent() >= 75) {
 				map.put("level", "2");
-				map.put("days", 30);
+				map.put("days", 0);
 				map.put("msg",
 						"Congratulations You have completed level 1 and 1evel 2 has been unlocked");
 			} else if (levelResultInfo.getLevelResultPercent() >= 30
@@ -62,7 +62,7 @@ public class LevelCal {
 		case "2":
 			if (levelResultInfo.getLevelResultPercent() <= 25) {
 				map.put("level", "3");
-				map.put("days", 15);
+				map.put("days", 0);
 				map.put("msg",
 						"Congratulations You have completed level 2 and 1evel 3 has been unlocked");
 			} else if (levelResultInfo.getLevelResultPercent() >= 25
@@ -85,7 +85,7 @@ public class LevelCal {
 		case "3":
 			if (levelResultInfo.getLevelResultPercent() <= 30) {
 				map.put("level", "41");
-				map.put("days", 15);
+				map.put("days", 0);
 				map.put("msg",
 						"Congratulations You have completed level 3 and 1evel 4 (Process your thoughts) has been unlocked");
 			} else {
@@ -99,7 +99,7 @@ public class LevelCal {
 		case "41":
 			if (levelResultInfo.getLevelResultPercent() <= 30) {
 				map.put("level", "42");
-				map.put("days", 15);
+				map.put("days", 0);
 				map.put("msg",
 						"Congratulations You have completed level Process your thoughts  and 1evel Face the mirror has been unlocked");
 			} else {
