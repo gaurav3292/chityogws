@@ -267,5 +267,25 @@ public class UserValidations {
 		map.put("status", status);
 		return map;
 	}
+	
+	public static Map<String, Object> checkRating(UserBean user) {
+		// TODO Auto-generated method stub
+		String status = Config.SUCCESS;
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (user.getUserId() == null) {
+			status = Config.ERROR;
+			map.put("msg", "User id is required");
+		} else if (user.getLevelNumber() == null) {
+			status = Config.ERROR;
+			map.put("msg", "Level is required");
+		} else if (user.getLineRating() == null) {
+			status = Config.ERROR;
+			map.put("msg", "Rating order is required");
+		}
+
+		map.put("status", status);
+		return map;
+	}
 
 }

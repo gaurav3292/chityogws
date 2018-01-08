@@ -54,6 +54,9 @@ public class UserLevelInfo implements Serializable {
 	
 	@Column(name = "USER_DAYS_ATTENDED")
 	private Integer attendedNumberOfDays;
+	
+	@Column(name = "USER_SUB_LEVEL")
+	private String userSubLevel;
 
 	@OneToOne
 	@JoinColumn(name = "USER_ID")
@@ -146,6 +149,16 @@ public class UserLevelInfo implements Serializable {
 	public void setAttendedNumberOfDays(Integer attendedNumberOfDays) {
 		this.attendedNumberOfDays = attendedNumberOfDays;
 	}
+
+	public String getUserSubLevel() {
+		return userSubLevel;
+	}
+
+	public void setUserSubLevel(String userSubLevel) {
+		this.userSubLevel = userSubLevel;
+	}
+	
+	
 	
 	
 

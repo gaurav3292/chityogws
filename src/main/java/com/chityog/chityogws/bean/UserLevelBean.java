@@ -16,6 +16,7 @@ public class UserLevelBean implements Serializable {
 	private Integer numberOfTrue;
 	private Integer totalNumberOfQuestions;
 	private Integer attendedNumberOfDays;
+	private String userSubLevel;
 
 	public Long getUserLevelId() {
 		return userLevelId;
@@ -97,4 +98,13 @@ public class UserLevelBean implements Serializable {
 		this.attendedNumberOfDays = attendedNumberOfDays;
 	}
 
+	public String getUserSubLevel() {
+		return userSubLevel;
+	}
+
+	public void setUserSubLevel(String userSubLevel) {
+		this.userSubLevel = userSubLevel;
+	}
+
+	
 }

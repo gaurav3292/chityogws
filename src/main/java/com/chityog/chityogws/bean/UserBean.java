@@ -26,6 +26,7 @@ public class UserBean implements Serializable {
 	private String levelNumber;
 	private Date date;
 	private String isResult;
+	private String lineRating;
 	private UserLevelBean level;
 
 	public Long getUserId() {
@@ -196,6 +197,13 @@ public class UserBean implements Serializable {
 		this.isResult = isResult;
 	}
 
-	
+	public String getLineRating() {
+		return lineRating;
+	}
 
+	public void setLineRating(String lineRating) {
+		this.lineRating = lineRating;
+	}
+
+	
 }

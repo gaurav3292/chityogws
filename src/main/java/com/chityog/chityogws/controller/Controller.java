@@ -527,6 +527,45 @@ public class Controller {
 
 	}
 
+	@RequestMapping(value = "/submitRating", method = RequestMethod.POST)
+	public Map<String, Object> submitRating(@RequestBody UserBean user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkRating(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				UserLevelInfo userLevelInfo = userLevelService
+						.checkExistingUserLevel(userInfo);
+				Map<String, Object> updatedLevelMap = LevelCal.getRatingLevel(
+						userLevelInfo, user);
+
+				String levelStr = (String) updatedLevelMap.get("level");
+				String subLevel = (String) updatedLevelMap.get("sub_level");
+				int totalNoOfDays = (int) updatedLevelMap.get("days");
+				if (totalNoOfDays == 0) {
+					user.setDate(null);
+				}
+
+				int r = userLevelService.updateUserLevel(userInfo,
+						userLevelInfo, levelStr, totalNoOfDays, user.getDate(),
+						subLevel);
+				if (r > 0) {
+					userLevelInfo = userLevelService
+							.checkExistingUserLevel(userInfo);
+					map.put("level", userLevelInfo);
+					map.put("msg", updatedLevelMap.get("msg"));
+				}
+			}
+		}
+		return map;
+	}
+
 	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
 	public Map<String, Object> submitTest(@RequestBody UserBean user) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -546,7 +585,7 @@ public class Controller {
 						.getDate()) {
 					map.put("status", Config.ERROR);
 					map.put("msg", "Start submitting your test from tomorrow");
-			
+
 				} else {
 					int daysFromStartDate = LevelCal.getDatesDifference(
 							userLevelInfo.getStartDate(), user.getDate());
@@ -616,14 +655,21 @@ public class Controller {
 
 									String levelStr = (String) updatedLevelMap
 											.get("level");
+									String subLevel = null;
+									try {
+										subLevel = (String) updatedLevelMap.get("sub_level");
+									} catch (NullPointerException e) {
+										// TODO: handle exception.
+										e.printStackTrace();
+									}
 									int totalNoOfDays = (int) updatedLevelMap
 											.get("days");
-									if(totalNoOfDays==0){
+									if (totalNoOfDays == 0) {
 										user.setDate(null);
 									}
 									int r = userLevelService.updateUserLevel(
 											userInfo, userLevelInfo, levelStr,
-											totalNoOfDays, user.getDate());
+											totalNoOfDays, user.getDate(),subLevel);
 									if (r > 0) {
 										userLevelInfo = userLevelService
 												.checkExistingUserLevel(userInfo);

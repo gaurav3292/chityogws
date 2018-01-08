@@ -29,6 +29,11 @@ public class UserLevelService {
 			String level,int numberOfDays,Date date) {
 		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level,numberOfDays,date);
 	}
+	
+	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
+			String level,int numberOfDays,Date date,String subLevel) {
+		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level,numberOfDays,date,subLevel);
+	}
 
 	public int updateUserLevelInfo(UserInfo userInfo, UserBean user) {
 		// TODO Auto-generated method stub
