@@ -565,6 +565,123 @@ public class Controller {
 		}
 		return map;
 	}
+	
+	@RequestMapping(value = "/submitProgramme", method = RequestMethod.POST)
+	public Map<String, Object> submitProgramme(@RequestBody UserBean user){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkStartTest(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else{
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			}else{
+				UserLevelInfo userLevelInfo = userLevelService
+						.checkExistingUserLevel(userInfo);
+				if (userLevelInfo.getStartDate().getDate() == user.getDate()
+						.getDate()) {
+					map.put("status", Config.ERROR);
+					map.put("msg", "Start submitting your test from tomorrow");
+
+				}else{
+					LevelResultInfo levelResultInfo = levelResultService
+							.checkExistingLevelResult(userLevelInfo);
+					int levelResult = 0;
+					if (levelResultInfo == null){
+						int result = userLevelService
+								.updateLevelTestProgramme(
+										userLevelInfo, user);
+						userLevelInfo = userLevelService
+								.checkExistingUserLevel(userInfo);
+						double percent = LevelCal
+								.getLevelProgramResult(userLevelInfo);
+						levelResult = levelResultService
+								.createLevelResult(userLevelInfo,
+										percent, user);
+					}else{
+						if (levelResultInfo.getLastSubmittionDate()
+								.getDate() == user.getDate().getDate()) {
+							
+						}else{
+							int result = userLevelService
+									.updateLevelTestProgramme(
+											userLevelInfo, user);
+							userLevelInfo = userLevelService
+									.checkExistingUserLevel(userInfo);
+							double percent = LevelCal
+									.getLevelProgramResult(userLevelInfo);
+							levelResult = levelResultService
+									.updateLevelResult(levelResultInfo,
+											userLevelInfo, percent,
+											user);
+						}
+					}
+					if (levelResult > 0) {
+
+						levelResultInfo = levelResultService
+								.checkExistingLevelResult(userLevelInfo);
+
+						Gson gson = new Gson();
+						String jsonObject = gson
+								.toJson(levelResultInfo);
+						LevelResultBean levelResultBean = gson
+								.fromJson(jsonObject,
+										LevelResultBean.class);
+
+						if (userLevelInfo.getTotalNumberOfDays() <= userLevelInfo
+								.getCompletedNumberOfDays()) {
+							Map<String, Object> updatedLevelMap = LevelCal
+									.getUpdatedLevel(userLevelInfo,
+											levelResultInfo);
+
+							String levelStr = (String) updatedLevelMap
+									.get("level");
+							String subLevel = null;
+							try {
+								subLevel = (String) updatedLevelMap.get("sub_level");
+							} catch (NullPointerException e) {
+								// TODO: handle exception.
+								e.printStackTrace();
+							}
+							int totalNoOfDays = (int) updatedLevelMap
+									.get("days");
+							if (totalNoOfDays == 0) {
+								user.setDate(null);
+							}
+							int r = userLevelService.updateUserLevel(
+									userInfo, userLevelInfo, levelStr,
+									totalNoOfDays, user.getDate(),subLevel);
+							if (r > 0) {
+								userLevelInfo = userLevelService
+										.checkExistingUserLevel(userInfo);
+								map.put("level", userLevelInfo);
+								map.put("result", levelResultBean);
+								map.put("msg",
+										updatedLevelMap.get("msg"));
+							}
+
+						} else {
+
+							map.put("level", userLevelInfo);
+							map.put("result", levelResultBean);
+							map.put("msg",
+									"Thanks for submitting the your programme");
+						}
+					}else{
+						map.put("status", Config.ERROR);
+						map.put("msg",
+								"You have already submitted test for this day");
+					}
+				}
+			}
+		}
+		return map;
+		
+	}
+	
 
 	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
 	public Map<String, Object> submitTest(@RequestBody UserBean user) {
@@ -616,7 +733,7 @@ public class Controller {
 
 								if (levelResultInfo.getLastSubmittionDate()
 										.getDate() == user.getDate().getDate()) {
-
+									
 								} else {
 									int result = userLevelService
 											.updateLevelTestSubmittion(

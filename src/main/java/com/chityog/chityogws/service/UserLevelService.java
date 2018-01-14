@@ -46,4 +46,10 @@ public class UserLevelService {
 		return userLevelDao.updateLevelTestSubmittion(userLevelInfo,user,daysFromStartDate);
 	}
 
+	public int updateLevelTestProgramme(UserLevelInfo userLevelInfo,
+			UserBean user) {
+		// TODO Auto-generated method stub
+		return userLevelDao.updateLevelTestProgramme(userLevelInfo,user);
+	}
+
 }

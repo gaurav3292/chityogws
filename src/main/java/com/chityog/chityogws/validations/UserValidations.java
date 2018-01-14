@@ -246,7 +246,7 @@ public class UserValidations {
 			map.put("msg", "Level is required");
 		} else if (user.getDate() == null) {
 			status = Config.ERROR;
-			map.put("msg", "Start date is required");
+			map.put("msg", "Date is required");
 		}
 
 		map.put("status", status);

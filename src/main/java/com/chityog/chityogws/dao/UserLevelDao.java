@@ -40,19 +40,19 @@ public class UserLevelDao {
 	}
 
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
-			String level,int numberOfDays,Date date) {
+			String level, int numberOfDays, Date date) {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
 						"UPDATE  UserLevelInfo u SET u.userLevel = :level , "
-						+ "u.totalNumberOfDays = :totalNumberOfDays , "
-						+ "u.completedNumberOfDays = :completedNumberOfDays , "
-						+ "u.skippedNumberOfDays = :skippedNumberOfDays , "
-						+ "u.startDate = :startDate , u.isResult = :isResult ,"
-						+ " u.numberOfTrue = :numberOfTrue ,"
-						+ " u.totalNumberOfQuestions = :totalNumberOfQuestions ,"
-						+ " u.attendedNumberOfDays = :attendedNumberOfDays "
-						+ " where u.userLevelId = :userLevelId and  userInfo.userId = :uid");
+								+ "u.totalNumberOfDays = :totalNumberOfDays , "
+								+ "u.completedNumberOfDays = :completedNumberOfDays , "
+								+ "u.skippedNumberOfDays = :skippedNumberOfDays , "
+								+ "u.startDate = :startDate , u.isResult = :isResult ,"
+								+ " u.numberOfTrue = :numberOfTrue ,"
+								+ " u.totalNumberOfQuestions = :totalNumberOfQuestions ,"
+								+ " u.attendedNumberOfDays = :attendedNumberOfDays "
+								+ " where u.userLevelId = :userLevelId and  userInfo.userId = :uid");
 		query.setString("level", level);
 		query.setInteger("totalNumberOfDays", numberOfDays);
 		query.setInteger("completedNumberOfDays", 0);
@@ -66,22 +66,22 @@ public class UserLevelDao {
 		query.setLong("uid", userInfo.getUserId());
 		return query.executeUpdate();
 	}
-	
+
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
-			String level,int numberOfDays,Date date,String subLevel) {
+			String level, int numberOfDays, Date date, String subLevel) {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
 						"UPDATE  UserLevelInfo u SET u.userLevel = :level , "
-						+ "u.totalNumberOfDays = :totalNumberOfDays , "
-						+ "u.completedNumberOfDays = :completedNumberOfDays , "
-						+ "u.skippedNumberOfDays = :skippedNumberOfDays , "
-						+ "u.startDate = :startDate , u.isResult = :isResult ,"
-						+ " u.numberOfTrue = :numberOfTrue ,"
-						+ " u.totalNumberOfQuestions = :totalNumberOfQuestions ,"
-						+ " u.userSubLevel = :subLevel ,"
-						+ " u.attendedNumberOfDays = :attendedNumberOfDays "
-						+ " where u.userLevelId = :userLevelId and  userInfo.userId = :uid");
+								+ "u.totalNumberOfDays = :totalNumberOfDays , "
+								+ "u.completedNumberOfDays = :completedNumberOfDays , "
+								+ "u.skippedNumberOfDays = :skippedNumberOfDays , "
+								+ "u.startDate = :startDate , u.isResult = :isResult ,"
+								+ " u.numberOfTrue = :numberOfTrue ,"
+								+ " u.totalNumberOfQuestions = :totalNumberOfQuestions ,"
+								+ " u.userSubLevel = :subLevel ,"
+								+ " u.attendedNumberOfDays = :attendedNumberOfDays "
+								+ " where u.userLevelId = :userLevelId and  userInfo.userId = :uid");
 		query.setString("level", level);
 		query.setInteger("totalNumberOfDays", numberOfDays);
 		query.setInteger("completedNumberOfDays", 0);
@@ -120,7 +120,23 @@ public class UserLevelDao {
 			totalDays = new Integer(15);
 			break;
 
-		case "4":
+		case "41":
+			totalDays = new Integer(15);
+			break;
+			
+		case "42":
+			totalDays = new Integer(15);
+			break;
+		case "51":
+			totalDays = new Integer(15);
+			break;
+		case "52":
+			totalDays = new Integer(15);
+			break;
+		case "53":
+			totalDays = new Integer(15);
+			break;
+		case "54":
 			totalDays = new Integer(15);
 			break;
 
@@ -150,6 +166,22 @@ public class UserLevelDao {
 
 		query.setInteger("attendedNumberOfDays", daysAttend);
 		query.setInteger("skippedNumberOfDays", daysSkipped);
+		query.setString("isResult", user.getIsResult());
+		query.setLong("uid", user.getUserId());
+		return query.executeUpdate();
+	}
+
+	public int updateLevelTestProgramme(UserLevelInfo userLevelInfo,
+			UserBean user) {
+		// TODO Auto-generated method stub
+		int daysAttend = userLevelInfo.getAttendedNumberOfDays() + 1;
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserLevelInfo u SET u.completedNumberOfDays = :completedNumberOfDays , u.isResult = :isResult , u.attendedNumberOfDays = :attendedNumberOfDays where  userInfo.userId = :uid");
+		query.setInteger("completedNumberOfDays", daysAttend);
+
+		query.setInteger("attendedNumberOfDays", daysAttend);
 		query.setString("isResult", user.getIsResult());
 		query.setLong("uid", user.getUserId());
 		return query.executeUpdate();

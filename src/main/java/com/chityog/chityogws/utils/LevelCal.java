@@ -32,6 +32,14 @@ public class LevelCal {
 
 	}
 
+	public static double getLevelProgramResult(UserLevelInfo userLevelInfo) {
+
+		double y = userLevelInfo.getAttendedNumberOfDays();
+		double x = userLevelInfo.getTotalNumberOfDays() / y;
+		return x * 100;
+
+	}
+
 	public static Map<String, Object> getUpdatedLevel(
 			UserLevelInfo userLevelInfo, LevelResultInfo levelResultInfo) {
 		// TODO Auto-generated method stub
@@ -128,19 +136,19 @@ public class LevelCal {
 			map = getUpdatedSubLevel(userLevelInfo);
 
 			break;
-			
+
 		case "52":
 
 			map = getUpdatedSubLevel(userLevelInfo);
 
 			break;
-			
+
 		case "53":
 
 			map = getUpdatedSubLevel(userLevelInfo);
 
 			break;
-			
+
 		case "54":
 
 			map = getUpdatedSubLevel(userLevelInfo);
