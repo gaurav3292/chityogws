@@ -171,7 +171,7 @@ public class LevelCal {
 			if (userLevelInfo.getAttendedNumberOfDays() >= 15) {
 				map.put("level", userLevelInfo.getUserLevel());
 				map.put("sub_level", "2");
-				map.put("days", 0);
+				map.put("days", "15");
 				map.put("msg",
 						"Congratulations! Your next meditation has been unlocked");
 			} else {
@@ -215,7 +215,7 @@ public class LevelCal {
 
 		case "1":
 			map.put("level", "51");
-			map.put("days", 0);
+			map.put("days", 15);
 			map.put("sub_level", "1");
 			map.put("msg",
 					"Congratulations Meditation Programme 1 has been unlocked");
@@ -223,7 +223,7 @@ public class LevelCal {
 
 		case "2":
 			map.put("level", "52");
-			map.put("days", 0);
+			map.put("days", 15);
 			map.put("sub_level", "1");
 			map.put("msg",
 					"Congratulations Meditation Programme 2 has been unlocked");
@@ -231,7 +231,7 @@ public class LevelCal {
 
 		case "3":
 			map.put("level", "53");
-			map.put("days", 0);
+			map.put("days", 15);
 			map.put("sub_level", "1");
 			map.put("msg",
 					"Congratulations Meditation Programme 3 has been unlocked");
@@ -239,7 +239,7 @@ public class LevelCal {
 
 		case "4":
 			map.put("level", "54");
-			map.put("days", 0);
+			map.put("days", 15);
 			map.put("sub_level", "1");
 			map.put("msg",
 					"Congratulations Meditation Programme 4 has been unlocked");
