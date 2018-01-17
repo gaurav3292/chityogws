@@ -104,7 +104,7 @@ public class LevelCal {
 			break;
 
 		case "41":
-			if (levelResultInfo.getLevelResultPercent() <= 30) {
+			if (userLevelInfo.getAttendedNumberOfDays() >= 15) {
 				map.put("level", "42");
 				map.put("days", 0);
 				map.put("msg",
