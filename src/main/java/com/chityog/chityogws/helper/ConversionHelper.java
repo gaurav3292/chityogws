@@ -24,6 +24,7 @@ public class ConversionHelper {
 			level.setNumberOfTrue(userLevelInfo.getNumberOfTrue());
 			level.setTotalNumberOfQuestions(userLevelInfo.getTotalNumberOfQuestions());
 			level.setAttendedNumberOfDays(userLevelInfo.getAttendedNumberOfDays());
+			level.setUserSubLevel(userLevelInfo.getUserSubLevel());
 		}
 		
 

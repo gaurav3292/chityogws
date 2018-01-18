@@ -171,7 +171,7 @@ public class LevelCal {
 			if (userLevelInfo.getAttendedNumberOfDays() >= 15) {
 				map.put("level", userLevelInfo.getUserLevel());
 				map.put("sub_level", "2");
-				map.put("days", "15");
+				map.put("days", 15);
 				map.put("msg",
 						"Congratulations! Your next meditation has been unlocked");
 			} else {
