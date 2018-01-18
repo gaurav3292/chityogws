@@ -63,7 +63,7 @@ public class LevelCal {
 				map.put("level", "1");
 				map.put("days", 30);
 				map.put("msg",
-						"Oops! you have to repeat the level for next 30 days");
+						"YOU DID WELL! , You need to repeat this level for 30 days again");
 			}
 			break;
 
@@ -85,7 +85,7 @@ public class LevelCal {
 				map.put("level", "2");
 				map.put("days", 30);
 				map.put("msg",
-						"Oops! you have to repeat the level for next 30 days");
+						"YOU DID WELL! , You need to repeat this level for 30 days again");
 			}
 			break;
 
@@ -99,12 +99,12 @@ public class LevelCal {
 				map.put("level", "3");
 				map.put("days", 15);
 				map.put("msg",
-						"Oops! you have to repeat the level for next 15 days");
+						"YOU DID WELL! , You need to repeat this level for 15 days again");
 			}
 			break;
 
 		case "41":
-			if (userLevelInfo.getAttendedNumberOfDays() >= 15) {
+			if (levelResultInfo.getLevelResultPercent() <= 30) {
 				map.put("level", "42");
 				map.put("days", 0);
 				map.put("msg",
@@ -113,7 +113,7 @@ public class LevelCal {
 				map.put("level", "41");
 				map.put("days", 15);
 				map.put("msg",
-						"Oops! you have to repeat the level for next 15 days");
+						"YOU DID WELL! , You need to repeat this level for 15 days again");
 			}
 			break;
 
@@ -127,7 +127,7 @@ public class LevelCal {
 				map.put("level", "42");
 				map.put("days", 15);
 				map.put("msg",
-						"Oops! you have to repeat the level for next 15 days");
+						"YOU DID WELL! , You need to repeat this level for 15 days again");
 			}
 			break;
 
@@ -179,7 +179,7 @@ public class LevelCal {
 				map.put("days", 15);
 				map.put("sub_level", "1");
 				map.put("msg",
-						"Oops! you have to repeat the meditation for next 15 days");
+						"YOU DID WELL! , You need to repeat this level for 15 days again");
 			}
 			break;
 		case "2":
@@ -194,7 +194,7 @@ public class LevelCal {
 				map.put("days", 15);
 				map.put("sub_level", "2");
 				map.put("msg",
-						"Oops! you have to repeat the meditation for next 15 days");
+						"YOU DID WELL! , You need to repeat this level for 15 days again");
 			}
 
 			break;
