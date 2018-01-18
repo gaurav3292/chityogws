@@ -250,6 +250,6 @@ public class LevelCal {
 			break;
 
 		}
-		return null;
+		return map;
 	}
 }
