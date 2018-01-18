@@ -565,53 +565,50 @@ public class Controller {
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/submitProgramme", method = RequestMethod.POST)
-	public Map<String, Object> submitProgramme(@RequestBody UserBean user){
+	public Map<String, Object> submitProgramme(@RequestBody UserBean user) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map = UserValidations.checkStartTest(user);
 		String status = (String) map.get("status");
 		if (status.equalsIgnoreCase(Config.ERROR)) {
 			return map;
-		} else{
+		} else {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
 				map.put("msg", "User does not exits");
-			}else{
+			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
-				if(true){
+				if (true) {
 					LevelResultInfo levelResultInfo = levelResultService
 							.checkExistingLevelResult(userLevelInfo);
 					int levelResult = 0;
-					if (levelResultInfo == null){
-						int result = userLevelService
-								.updateLevelTestProgramme(
-										userLevelInfo, user);
+					if (levelResultInfo == null) {
+						int result = userLevelService.updateLevelTestProgramme(
+								userLevelInfo, user);
 						userLevelInfo = userLevelService
 								.checkExistingUserLevel(userInfo);
 						double percent = LevelCal
 								.getLevelProgramResult(userLevelInfo);
-						levelResult = levelResultService
-								.createLevelResult(userLevelInfo,
-										percent, user);
-					}else{
-						if (levelResultInfo.getLastSubmittionDate()
-								.getDate() == user.getDate().getDate()) {
-							
-						}else{
+						levelResult = levelResultService.createLevelResult(
+								userLevelInfo, percent, user);
+					} else {
+						if (levelResultInfo.getLastSubmittionDate().getDate() == user
+								.getDate().getDate()) {
+
+						} else {
 							int result = userLevelService
-									.updateLevelTestProgramme(
-											userLevelInfo, user);
+									.updateLevelTestProgramme(userLevelInfo,
+											user);
 							userLevelInfo = userLevelService
 									.checkExistingUserLevel(userInfo);
 							double percent = LevelCal
 									.getLevelProgramResult(userLevelInfo);
-							levelResult = levelResultService
-									.updateLevelResult(levelResultInfo,
-											userLevelInfo, percent,
-											user);
+							levelResult = levelResultService.updateLevelResult(
+									levelResultInfo, userLevelInfo, percent,
+									user);
 						}
 					}
 					if (levelResult > 0) {
@@ -620,11 +617,9 @@ public class Controller {
 								.checkExistingLevelResult(userLevelInfo);
 
 						Gson gson = new Gson();
-						String jsonObject = gson
-								.toJson(levelResultInfo);
-						LevelResultBean levelResultBean = gson
-								.fromJson(jsonObject,
-										LevelResultBean.class);
+						String jsonObject = gson.toJson(levelResultInfo);
+						LevelResultBean levelResultBean = gson.fromJson(
+								jsonObject, LevelResultBean.class);
 
 						if (userLevelInfo.getTotalNumberOfDays() <= userLevelInfo
 								.getCompletedNumberOfDays()) {
@@ -636,7 +631,8 @@ public class Controller {
 									.get("level");
 							String subLevel = null;
 							try {
-								subLevel = (String) updatedLevelMap.get("sub_level");
+								subLevel = (String) updatedLevelMap
+										.get("sub_level");
 							} catch (NullPointerException e) {
 								// TODO: handle exception.
 								e.printStackTrace();
@@ -646,16 +642,15 @@ public class Controller {
 							if (totalNoOfDays == 0) {
 								user.setDate(null);
 							}
-							int r = userLevelService.updateUserLevel(
-									userInfo, userLevelInfo, levelStr,
-									totalNoOfDays, user.getDate(),subLevel);
+							int r = userLevelService.updateUserLevel(userInfo,
+									userLevelInfo, levelStr, totalNoOfDays,
+									user.getDate(), subLevel);
 							if (r > 0) {
 								userLevelInfo = userLevelService
 										.checkExistingUserLevel(userInfo);
 								map.put("level", userLevelInfo);
 								map.put("result", levelResultBean);
-								map.put("msg",
-										updatedLevelMap.get("msg"));
+								map.put("msg", updatedLevelMap.get("msg"));
 							}
 
 						} else {
@@ -665,7 +660,7 @@ public class Controller {
 							map.put("msg",
 									"Thanks for submitting the your programme");
 						}
-					}else{
+					} else {
 						map.put("status", Config.ERROR);
 						map.put("msg",
 								"You have already submitted test for this day");
@@ -674,9 +669,48 @@ public class Controller {
 			}
 		}
 		return map;
-		
+
 	}
-	
+
+	@RequestMapping(value = "/checkSubmittion", method = RequestMethod.POST)
+	public Map<String, Object> checkSubmittion(@RequestBody UserBean user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkStartTest(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				UserLevelInfo userLevelInfo = userLevelService
+						.checkExistingUserLevel(userInfo);
+				if (userLevelInfo.getStartDate().getDate() == user.getDate()
+						.getDate()) {
+					map.put("status", Config.ERROR);
+					map.put("msg", "Start submitting your test from tomorrow");
+
+				} else {
+					LevelResultInfo levelResultInfo = levelResultService
+							.checkExistingLevelResult(userLevelInfo);
+					if (levelResultInfo != null) {
+						if (levelResultInfo.getLastSubmittionDate().getDate() == user
+								.getDate().getDate()) {
+							map.put("status", Config.ERROR);
+							map.put("msg",
+									"You have already submitted the test for today");
+						}
+					} else {
+						map.put("msg", "Proceed");
+					}
+				}
+			}
+		}
+
+		return map;
+	}
 
 	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
 	public Map<String, Object> submitTest(@RequestBody UserBean user) {
@@ -728,7 +762,7 @@ public class Controller {
 
 								if (levelResultInfo.getLastSubmittionDate()
 										.getDate() == user.getDate().getDate()) {
-									
+
 								} else {
 									int result = userLevelService
 											.updateLevelTestSubmittion(
@@ -769,7 +803,8 @@ public class Controller {
 											.get("level");
 									String subLevel = null;
 									try {
-										subLevel = (String) updatedLevelMap.get("sub_level");
+										subLevel = (String) updatedLevelMap
+												.get("sub_level");
 									} catch (NullPointerException e) {
 										// TODO: handle exception.
 										e.printStackTrace();
@@ -781,7 +816,8 @@ public class Controller {
 									}
 									int r = userLevelService.updateUserLevel(
 											userInfo, userLevelInfo, levelStr,
-											totalNoOfDays, user.getDate(),subLevel);
+											totalNoOfDays, user.getDate(),
+											subLevel);
 									if (r > 0) {
 										userLevelInfo = userLevelService
 												.checkExistingUserLevel(userInfo);
