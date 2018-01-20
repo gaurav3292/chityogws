@@ -125,7 +125,7 @@ public class UserLevelDao {
 			break;
 			
 		case "42":
-			totalDays = new Integer(15);
+			totalDays = new Integer(30);
 			break;
 		case "51":
 			totalDays = new Integer(15);

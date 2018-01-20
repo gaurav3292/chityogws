@@ -118,7 +118,7 @@ public class LevelCal {
 			break;
 
 		case "42":
-			if (userLevelInfo.getAttendedNumberOfDays() >= 15) {
+			if (userLevelInfo.getAttendedNumberOfDays() >= 30) {
 				map.put("level", "5");
 				map.put("days", 0);
 				map.put("msg",
@@ -127,7 +127,7 @@ public class LevelCal {
 				map.put("level", "42");
 				map.put("days", 15);
 				map.put("msg",
-						"YOU DID WELL! , You need to repeat this level for 15 days again");
+						"YOU DID WELL! , You need to repeat this level for 30 days again");
 			}
 			break;
 

@@ -515,7 +515,7 @@ public class Controller {
 							.checkExistingUserLevel(userInfo);
 
 					map.put("msg",
-							"Your routine has been start up ypu can give test from tomorrow");
+							"Your routine has been start up you can give test from tomorrow");
 					map.put("level", userLevelInfo);
 				} else {
 					map.put("status", Config.ERROR);
