@@ -125,7 +125,7 @@ public class LevelCal {
 						"Congratulations You have completed level Face the miror  and 1evel 5 has been unlocked");
 			} else {
 				map.put("level", "42");
-				map.put("days", 15);
+				map.put("days", 30);
 				map.put("msg",
 						"YOU DID WELL! , You need to repeat this level for 30 days again");
 			}
