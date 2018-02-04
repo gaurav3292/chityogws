@@ -57,10 +57,21 @@ public class UserLevelInfo implements Serializable {
 	
 	@Column(name = "USER_SUB_LEVEL")
 	private String userSubLevel;
+	
+	@Column(name = "IS_EXTRA_RESULT")
+	private Integer isExtraResult;
 
 	@OneToOne
 	@JoinColumn(name = "USER_ID")
 	private UserInfo userInfo;
+
+	public Integer getIsExtraResult() {
+		return isExtraResult;
+	}
+
+	public void setIsExtraResult(Integer isExtraResult) {
+		this.isExtraResult = isExtraResult;
+	}
 
 	public Long getUserLevelId() {
 		return userLevelId;
@@ -157,6 +168,8 @@ public class UserLevelInfo implements Serializable {
 	public void setUserSubLevel(String userSubLevel) {
 		this.userSubLevel = userSubLevel;
 	}
+	
+	
 	
 	
 	

@@ -715,6 +715,7 @@ public class Controller {
 	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
 	public Map<String, Object> submitTest(@RequestBody UserBean user) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		String returnMsg = "Thanks for submitting the test";
 		map = UserValidations.checkStartTest(user);
 		String status = (String) map.get("status");
 		if (status.equalsIgnoreCase(Config.ERROR)) {
@@ -758,6 +759,9 @@ public class Controller {
 								levelResult = levelResultService
 										.createLevelResult(userLevelInfo,
 												percent, user);
+								
+									
+
 							} else {
 
 								if (levelResultInfo.getLastSubmittionDate()
@@ -777,6 +781,15 @@ public class Controller {
 											.updateLevelResult(levelResultInfo,
 													userLevelInfo, percent,
 													user);
+									if(userLevelInfo.getIsExtraResult()==null)
+									if (user.getLevelNumber().equalsIgnoreCase("1")
+											&& userLevelInfo.getCompletedNumberOfDays()>=15 && percent >= 50){
+										userLevelService.updateExtraResult(
+												userInfo, userLevelInfo);
+										returnMsg = "You are making good progress in following this programme. Perhaps you’d like to add a few more routines to address some specific issues that might be dis-connecting you from your Chit.";
+										userLevelInfo = userLevelService
+												.checkExistingUserLevel(userInfo);
+									}
 								}
 
 							}
@@ -832,7 +845,7 @@ public class Controller {
 									map.put("level", userLevelInfo);
 									map.put("result", levelResultBean);
 									map.put("msg",
-											"Thanks for submitting the test");
+											returnMsg);
 								}
 							} else {
 								map.put("status", Config.ERROR);

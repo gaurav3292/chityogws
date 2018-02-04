@@ -187,4 +187,16 @@ public class UserLevelDao {
 		return query.executeUpdate();
 	}
 
+	public int updateExtraResult(UserInfo userInfo,
+			UserLevelInfo userLevelInfo) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserLevelInfo u SET u.isExtraResult = :isExtraResult where  u.userLevelId = :uid");
+		query.setInteger("isExtraResult", 1);
+		query.setLong("uid", userLevelInfo.getUserLevelId());
+		return query.executeUpdate();
+	}
+
 }

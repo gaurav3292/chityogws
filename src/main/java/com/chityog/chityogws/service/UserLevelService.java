@@ -52,4 +52,10 @@ public class UserLevelService {
 		return userLevelDao.updateLevelTestProgramme(userLevelInfo,user);
 	}
 
+	public int updateExtraResult(UserInfo userInfo, UserLevelInfo userLevelInfo) {
+		// TODO Auto-generated method stub
+		return userLevelDao.updateExtraResult(userInfo,userLevelInfo);
+		
+	}
+
 }

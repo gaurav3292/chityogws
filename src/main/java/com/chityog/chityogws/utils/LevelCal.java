@@ -57,13 +57,13 @@ public class LevelCal {
 				map.put("level", "1");
 				map.put("days", 15);
 				map.put("msg",
-						"Oops! you have to repeat the level for next 15 days");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 15 days");
 
 			} else {
 				map.put("level", "1");
 				map.put("days", 30);
 				map.put("msg",
-						"YOU DID WELL! , You need to repeat this level for 30 days again");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 30 days");
 			}
 			break;
 
@@ -79,13 +79,13 @@ public class LevelCal {
 				map.put("level", "2");
 				map.put("days", 15);
 				map.put("msg",
-						"Oops! you have to repeat the level for next 15 days");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 15 days");
 
 			} else {
 				map.put("level", "2");
 				map.put("days", 30);
 				map.put("msg",
-						"YOU DID WELL! , You need to repeat this level for 30 days again");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 30 days");
 			}
 			break;
 
@@ -99,7 +99,7 @@ public class LevelCal {
 				map.put("level", "3");
 				map.put("days", 15);
 				map.put("msg",
-						"YOU DID WELL! , You need to repeat this level for 15 days again");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 15 days");
 			}
 			break;
 
@@ -113,7 +113,7 @@ public class LevelCal {
 				map.put("level", "41");
 				map.put("days", 15);
 				map.put("msg",
-						"YOU DID WELL! , You need to repeat this level for 15 days again");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 15 days");
 			}
 			break;
 
@@ -127,7 +127,7 @@ public class LevelCal {
 				map.put("level", "42");
 				map.put("days", 30);
 				map.put("msg",
-						"YOU DID WELL! , You need to repeat this level for 30 days again");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 30 days");
 			}
 			break;
 
@@ -179,7 +179,7 @@ public class LevelCal {
 				map.put("days", 15);
 				map.put("sub_level", "1");
 				map.put("msg",
-						"YOU DID WELL! , You need to repeat this level for 15 days again");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 15 days");
 			}
 			break;
 		case "2":
@@ -194,7 +194,7 @@ public class LevelCal {
 				map.put("days", 15);
 				map.put("sub_level", "2");
 				map.put("msg",
-						"YOU DID WELL! , You need to repeat this level for 15 days again");
+						"Sorry. You haven’t given this programme enough time to benefit from its results so you will need to repeat if for another 15 days");
 			}
 
 			break;
