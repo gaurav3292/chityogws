@@ -20,6 +20,7 @@ import com.chityog.chityogws.bean.LevelResultBean;
 import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.ForgotPasswordInfo;
 import com.chityog.chityogws.domain.LevelResultInfo;
+import com.chityog.chityogws.domain.PaymentInfo;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
 import com.chityog.chityogws.helper.ConversionHelper;
@@ -27,6 +28,7 @@ import com.chityog.chityogws.mail.MailMail;
 import com.chityog.chityogws.security.MD5;
 import com.chityog.chityogws.service.CountryService;
 import com.chityog.chityogws.service.LevelResultService;
+import com.chityog.chityogws.service.PaymentService;
 import com.chityog.chityogws.service.UserLevelService;
 import com.chityog.chityogws.service.UserService;
 import com.chityog.chityogws.utils.Config;
@@ -46,6 +48,9 @@ public class Controller {
 
 	@Autowired
 	private LevelResultService levelResultService;
+
+	@Autowired
+	private PaymentService paymentService;
 
 	@Autowired
 	private UserService userService;
@@ -712,6 +717,58 @@ public class Controller {
 		return map;
 	}
 
+	@RequestMapping(value = "/updatePayment", method = RequestMethod.POST)
+	public Map<String, Object> updatePayment(@RequestBody UserBean user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkSelfTest(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				UserLevelInfo userLevelInfo = userLevelService
+						.checkExistingUserLevel(userInfo);
+
+				int result = paymentService.createPayment(userInfo, user);
+				if (result > 0) {
+
+					PaymentInfo paymentInfo = paymentService
+							.checkExistingPaymentStatus(userInfo, user);
+					if (paymentInfo != null) {
+						if (paymentInfo.getState().equalsIgnoreCase("approved")) {
+							int payResult = userLevelService
+									.updateUserLevelPaymentStatus(userLevelInfo);
+							if (payResult > 0) {
+
+								map.put("msg",
+										"You payment information has been saved successfully");
+							}
+						} else {
+							map.put("status", Config.ERROR);
+							map.put("msg",
+									"Your payment information has not been approved");
+						}
+					} else {
+						map.put("status", Config.ERROR);
+						map.put("msg", "User does not exits");
+					}
+				} else {
+
+					map.put("msg", "Error creating payment status");
+				}
+
+			}
+
+		}
+
+		return map;
+
+	}
+
 	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
 	public Map<String, Object> submitTest(@RequestBody UserBean user) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -759,8 +816,6 @@ public class Controller {
 								levelResult = levelResultService
 										.createLevelResult(userLevelInfo,
 												percent, user);
-								
-									
 
 							} else {
 
@@ -781,15 +836,18 @@ public class Controller {
 											.updateLevelResult(levelResultInfo,
 													userLevelInfo, percent,
 													user);
-									if(userLevelInfo.getIsExtraResult()==null)
-									if (user.getLevelNumber().equalsIgnoreCase("1")
-											&& userLevelInfo.getCompletedNumberOfDays()>=15 && percent >= 50){
-										userLevelService.updateExtraResult(
-												userInfo, userLevelInfo);
-										returnMsg = "You are making good progress in following this programme. Perhaps you’d like to add a few more routines to address some specific issues that might be dis-connecting you from your Chit.";
-										userLevelInfo = userLevelService
-												.checkExistingUserLevel(userInfo);
-									}
+									if (userLevelInfo.getIsExtraResult() == null)
+										if (user.getLevelNumber()
+												.equalsIgnoreCase("1")
+												&& userLevelInfo
+														.getCompletedNumberOfDays() >= 15
+												&& percent >= 50) {
+											userLevelService.updateExtraResult(
+													userInfo, userLevelInfo);
+											returnMsg = "You are making good progress in following this programme. Perhaps you’d like to add a few more routines to address some specific issues that might be dis-connecting you from your Chit.";
+											userLevelInfo = userLevelService
+													.checkExistingUserLevel(userInfo);
+										}
 								}
 
 							}
@@ -844,8 +902,7 @@ public class Controller {
 
 									map.put("level", userLevelInfo);
 									map.put("result", levelResultBean);
-									map.put("msg",
-											returnMsg);
+									map.put("msg", returnMsg);
 								}
 							} else {
 								map.put("status", Config.ERROR);

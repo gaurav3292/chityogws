@@ -28,6 +28,7 @@ public class UserBean implements Serializable {
 	private String isResult;
 	private String lineRating;
 	private UserLevelBean level;
+	private PaymentBean payment;
 
 	public Long getUserId() {
 		return userId;
@@ -204,6 +205,16 @@ public class UserBean implements Serializable {
 	public void setLineRating(String lineRating) {
 		this.lineRating = lineRating;
 	}
+
+	public PaymentBean getPayment() {
+		return payment;
+	}
+
+	public void setPayment(PaymentBean payment) {
+		this.payment = payment;
+	}
+	
+	
 
 	
 }

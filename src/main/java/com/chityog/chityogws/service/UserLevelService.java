@@ -26,36 +26,43 @@ public class UserLevelService {
 	}
 
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
-			String level,int numberOfDays,Date date) {
-		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level,numberOfDays,date);
+			String level, int numberOfDays, Date date) {
+		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level,
+				numberOfDays, date);
 	}
-	
+
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
-			String level,int numberOfDays,Date date,String subLevel) {
-		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level,numberOfDays,date,subLevel);
+			String level, int numberOfDays, Date date, String subLevel) {
+		return userLevelDao.updateUserLevel(userInfo, userLevelInfo, level,
+				numberOfDays, date, subLevel);
 	}
 
 	public int updateUserLevelInfo(UserInfo userInfo, UserBean user) {
 		// TODO Auto-generated method stub
-		return userLevelDao.updateUserLevelInfo(userInfo,user);
+		return userLevelDao.updateUserLevelInfo(userInfo, user);
 	}
 
 	public int updateLevelTestSubmittion(UserLevelInfo userLevelInfo,
 			UserBean user, int daysFromStartDate) {
 		// TODO Auto-generated method stub
-		return userLevelDao.updateLevelTestSubmittion(userLevelInfo,user,daysFromStartDate);
+		return userLevelDao.updateLevelTestSubmittion(userLevelInfo, user,
+				daysFromStartDate);
 	}
 
 	public int updateLevelTestProgramme(UserLevelInfo userLevelInfo,
 			UserBean user) {
 		// TODO Auto-generated method stub
-		return userLevelDao.updateLevelTestProgramme(userLevelInfo,user);
+		return userLevelDao.updateLevelTestProgramme(userLevelInfo, user);
 	}
 
 	public int updateExtraResult(UserInfo userInfo, UserLevelInfo userLevelInfo) {
 		// TODO Auto-generated method stub
-		return userLevelDao.updateExtraResult(userInfo,userLevelInfo);
-		
+		return userLevelDao.updateExtraResult(userInfo, userLevelInfo);
+
+	}
+
+	public int updateUserLevelPaymentStatus(UserLevelInfo userLevelInfo) {
+		return userLevelDao.updateUserLevelPaymentStatus(userLevelInfo);
 	}
 
 }
