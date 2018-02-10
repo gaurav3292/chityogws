@@ -26,6 +26,8 @@ public class ConversionHelper {
 			level.setAttendedNumberOfDays(userLevelInfo.getAttendedNumberOfDays());
 			level.setUserSubLevel(userLevelInfo.getUserSubLevel());
 			level.setIsExtraResult(userLevelInfo.getIsExtraResult());
+			level.setIsPaymentRequired(userLevelInfo.getIsPaymentRequired());
+			level.setIsPaymentMade(userLevelInfo.getIsPaymentMade());
 		}
 		
 

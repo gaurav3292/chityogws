@@ -18,7 +18,9 @@ public class UserLevelBean implements Serializable {
 	private Integer attendedNumberOfDays;
 	private Integer isExtraResult;
 	private String userSubLevel;
-
+	private Boolean isPaymentRequired;
+    private Boolean isPaymentMade;
+	
 	public Long getUserLevelId() {
 		return userLevelId;
 	}
@@ -114,6 +116,26 @@ public class UserLevelBean implements Serializable {
 	public void setIsExtraResult(Integer isExtraResult) {
 		this.isExtraResult = isExtraResult;
 	}
+
+	public Boolean getIsPaymentRequired() {
+		return isPaymentRequired;
+	}
+
+	public void setIsPaymentRequired(Boolean isPaymentRequired) {
+		this.isPaymentRequired = isPaymentRequired;
+	}
+
+	public Boolean getIsPaymentMade() {
+		return isPaymentMade;
+	}
+
+	public void setIsPaymentMade(Boolean isPaymentMade) {
+		this.isPaymentMade = isPaymentMade;
+	}
+
+	
+	
+	
 	
 	
 

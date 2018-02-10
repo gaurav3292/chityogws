@@ -69,6 +69,11 @@ public class UserLevelDao {
 
 	public int updateUserLevel(UserInfo userInfo, UserLevelInfo userLevelInfo,
 			String level, int numberOfDays, Date date, String subLevel) {
+		boolean isPaymentRequired = false;
+		boolean isPaymentMade = false;
+		if(level.equalsIgnoreCase("41") || level.equalsIgnoreCase("6")){
+			isPaymentRequired = true;
+		}
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
@@ -80,6 +85,8 @@ public class UserLevelDao {
 								+ " u.numberOfTrue = :numberOfTrue ,"
 								+ " u.totalNumberOfQuestions = :totalNumberOfQuestions ,"
 								+ " u.userSubLevel = :subLevel ,"
+								+ " u.isPaymentRequired = :isPaymentRequired ,"
+								+ " u.isPaymentMade = :isPaymentMade ,"
 								+ " u.attendedNumberOfDays = :attendedNumberOfDays "
 								+ " where u.userLevelId = :userLevelId and  userInfo.userId = :uid");
 		query.setString("level", level);
@@ -91,10 +98,23 @@ public class UserLevelDao {
 		query.setInteger("numberOfTrue", 0);
 		query.setInteger("totalNumberOfQuestions", 0);
 		query.setString("subLevel", subLevel);
+		query.setBoolean("isPaymentRequired", isPaymentRequired);
+		query.setBoolean("isPaymentMade", isPaymentMade);
 		query.setInteger("attendedNumberOfDays", 0);
 		query.setLong("userLevelId", userLevelInfo.getUserLevelId());
 		query.setLong("uid", userInfo.getUserId());
 		return query.executeUpdate();
+	}
+	
+	public int updateUserLevelPaymentStatus(UserLevelInfo userLevelInfo){
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserLevelInfo u SET u.isPaymentMade = :isPaymentMade where  u.userLevelId = :userLevelId");
+		query.setBoolean("isPaymentMade", true);
+		query.setLong("userLevelId", userLevelInfo.getUserLevelId());
+		return query.executeUpdate();
+		
 	}
 
 	public int updateUserLevelInfo(UserInfo userInfo, UserBean user) {

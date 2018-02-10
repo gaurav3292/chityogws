@@ -60,6 +60,12 @@ public class UserLevelInfo implements Serializable {
 	
 	@Column(name = "IS_EXTRA_RESULT")
 	private Integer isExtraResult;
+	
+	@Column(name = "IS_PAYMENT_REQUIRED" , columnDefinition = "boolean default false", nullable = false)
+	private Boolean isPaymentRequired = false;
+	
+	@Column(name = "IS_PAYMENT_MADE" , columnDefinition = "boolean default false", nullable = false)
+	private Boolean isPaymentMade = false;
 
 	@OneToOne
 	@JoinColumn(name = "USER_ID")
@@ -168,6 +174,23 @@ public class UserLevelInfo implements Serializable {
 	public void setUserSubLevel(String userSubLevel) {
 		this.userSubLevel = userSubLevel;
 	}
+
+	public Boolean getIsPaymentRequired() {
+		return isPaymentRequired;
+	}
+
+	public void setIsPaymentRequired(Boolean isPaymentRequired) {
+		this.isPaymentRequired = isPaymentRequired;
+	}
+
+	public Boolean getIsPaymentMade() {
+		return isPaymentMade;
+	}
+
+	public void setIsPaymentMade(Boolean isPaymentMade) {
+		this.isPaymentMade = isPaymentMade;
+	}
+
 	
 	
 	
