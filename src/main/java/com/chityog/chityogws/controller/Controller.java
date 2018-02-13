@@ -35,6 +35,7 @@ import com.chityog.chityogws.utils.Config;
 import com.chityog.chityogws.utils.ImageUpload;
 import com.chityog.chityogws.utils.LevelCal;
 import com.chityog.chityogws.validations.UserValidations;
+import com.chityog.chotyogws.http.Notifications;
 import com.google.gson.Gson;
 
 @RestController
@@ -962,6 +963,15 @@ public class Controller {
 		}
 		return map;
 
+	}
+	
+	@RequestMapping("/sendNotification")
+	public Map<String, Object> setNotification(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		Notifications noti = new Notifications();
+		String response = noti.sendNotification();
+		map.put("response", response);
+		return map;
 	}
 
 }
