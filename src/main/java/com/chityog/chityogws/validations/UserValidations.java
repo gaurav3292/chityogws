@@ -38,6 +38,12 @@ public class UserValidations {
 			} else if (user.getPassword() == null) {
 				map.put("msg", "Password is required");
 
+			} else if (user.getDeviceToken() == null) {
+				status = Config.ERROR;
+				map.put("msg", "Device token is required");
+			} else if (user.getDeviceType() == null) {
+				status = Config.ERROR;
+				map.put("msg", "Device type is required");
 			}
 
 		}
@@ -61,6 +67,12 @@ public class UserValidations {
 		} else if (user.getPassword() == null) {
 			status = Config.ERROR;
 			map.put("msg", "Password is required");
+		} else if (user.getDeviceToken() == null) {
+			status = Config.ERROR;
+			map.put("msg", "Device token is required");
+		} else if (user.getDeviceType() == null) {
+			status = Config.ERROR;
+			map.put("msg", "Device type is required");
 		}
 
 		map.put("status", status);
@@ -267,7 +279,7 @@ public class UserValidations {
 		map.put("status", status);
 		return map;
 	}
-	
+
 	public static Map<String, Object> checkRating(UserBean user) {
 		// TODO Auto-generated method stub
 		String status = Config.SUCCESS;

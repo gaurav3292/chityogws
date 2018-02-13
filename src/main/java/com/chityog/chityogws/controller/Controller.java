@@ -122,6 +122,7 @@ public class Controller {
 				map.put("msg", "Incorrect Password");
 			} else {
 				map.put("msg", "Logged in user details");
+				userService.updateUserDevice(user, userInfo);
 				if (userInfo.getProfilePic() != null) {
 					String imageUrl = Config.IMAGE_LIVE_URL + "/"
 							+ userInfo.getProfilePic();

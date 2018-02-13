@@ -13,6 +13,7 @@ public class UserBean implements Serializable {
 	private String address;
 	private String password;
 	private String deviceType;
+	private String deviceToken;
 	private String gender;
 	private String country;
 	private String oldPassword;
@@ -212,6 +213,14 @@ public class UserBean implements Serializable {
 
 	public void setPayment(PaymentBean payment) {
 		this.payment = payment;
+	}
+
+	public String getDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		this.deviceToken = deviceToken;
 	}
 	
 	
