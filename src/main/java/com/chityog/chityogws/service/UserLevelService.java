@@ -65,4 +65,10 @@ public class UserLevelService {
 		return userLevelDao.updateUserLevelPaymentStatus(userLevelInfo);
 	}
 
+	public int updateNotification(UserLevelInfo userLevelInfo) {
+		// TODO Auto-generated method stub
+		return userLevelDao.updateNotiification(userLevelInfo);
+		
+	}
+
 }

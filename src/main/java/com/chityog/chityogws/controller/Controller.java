@@ -595,6 +595,16 @@ public class Controller {
 					if (levelResultInfo == null) {
 						int result = userLevelService.updateLevelTestProgramme(
 								userLevelInfo, user);
+						
+						Notifications noti = new Notifications();
+						int response = noti.checkUserData(userLevelInfo, userInfo);
+						if(response==200){
+							userLevelService.updateNotification(userLevelInfo);
+							userLevelInfo = userLevelService
+									.checkExistingUserLevel(userInfo);
+							
+						}
+						
 						userLevelInfo = userLevelService
 								.checkExistingUserLevel(userInfo);
 						double percent = LevelCal
@@ -609,6 +619,16 @@ public class Controller {
 							int result = userLevelService
 									.updateLevelTestProgramme(userLevelInfo,
 											user);
+							
+							Notifications noti = new Notifications();
+							int response = noti.checkUserData(userLevelInfo, userInfo);
+							if(response==200){
+								userLevelService.updateNotification(userLevelInfo);
+								userLevelInfo = userLevelService
+										.checkExistingUserLevel(userInfo);
+								
+							}
+							
 							userLevelInfo = userLevelService
 									.checkExistingUserLevel(userInfo);
 							double percent = LevelCal
@@ -831,6 +851,16 @@ public class Controller {
 													daysFromStartDate);
 									userLevelInfo = userLevelService
 											.checkExistingUserLevel(userInfo);
+									
+									Notifications noti = new Notifications();
+									int response = noti.checkUserData(userLevelInfo, userInfo);
+									if(response==200){
+										userLevelService.updateNotification(userLevelInfo);
+										userLevelInfo = userLevelService
+												.checkExistingUserLevel(userInfo);
+										
+									}
+									
 									double percent = LevelCal
 											.getLevelResult(userLevelInfo);
 
@@ -970,7 +1000,7 @@ public class Controller {
 	public Map<String, Object> setNotification(){
 		Map<String, Object> map = new HashMap<String, Object>();
 		Notifications noti = new Notifications();
-		String response = noti.sendNotification();
+		int response = noti.sendNotificationToAndroid("hi", "fasQjwtw_GM:APA91bElIS2scRIKc8tgW33fR_vkIqrwi5JcLZSirY3H3ljYqGl3qFM8fjnzAuL3_1YvnL3-bX-8paxMdih_zXsXL4H-FncN9YTvCgy1Y53jd6If6wCqY8tMwUBGcg9b3WNFAYfnNPEZ");
 		map.put("response", response);
 		return map;
 	}

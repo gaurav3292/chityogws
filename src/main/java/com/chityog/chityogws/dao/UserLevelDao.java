@@ -87,6 +87,7 @@ public class UserLevelDao {
 								+ " u.userSubLevel = :subLevel ,"
 								+ " u.isPaymentRequired = :isPaymentRequired ,"
 								+ " u.isPaymentMade = :isPaymentMade ,"
+								+ " u.isNotification = :isNotification ,"
 								+ " u.attendedNumberOfDays = :attendedNumberOfDays "
 								+ " where u.userLevelId = :userLevelId and  userInfo.userId = :uid");
 		query.setString("level", level);
@@ -100,6 +101,7 @@ public class UserLevelDao {
 		query.setString("subLevel", subLevel);
 		query.setBoolean("isPaymentRequired", isPaymentRequired);
 		query.setBoolean("isPaymentMade", isPaymentMade);
+		query.setBoolean("isNotification", false);
 		query.setInteger("attendedNumberOfDays", 0);
 		query.setLong("userLevelId", userLevelInfo.getUserLevelId());
 		query.setLong("uid", userInfo.getUserId());
@@ -217,6 +219,18 @@ public class UserLevelDao {
 		query.setInteger("isExtraResult", 1);
 		query.setLong("uid", userLevelInfo.getUserLevelId());
 		return query.executeUpdate();
+	}
+
+	public int updateNotiification(UserLevelInfo userLevelInfo) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserLevelInfo u SET u.isNotification = :isNotification where  u.userLevelId = :uid");
+		query.setBoolean("isNotification", true);
+		query.setLong("uid", userLevelInfo.getUserLevelId());
+		return query.executeUpdate();
+		
 	}
 
 }
