@@ -29,6 +29,7 @@ import com.chityog.chityogws.mail.MailMail;
 import com.chityog.chityogws.security.MD5;
 import com.chityog.chityogws.service.CountryService;
 import com.chityog.chityogws.service.LevelResultService;
+import com.chityog.chityogws.service.NotificationService;
 import com.chityog.chityogws.service.PaymentService;
 import com.chityog.chityogws.service.UserLevelService;
 import com.chityog.chityogws.service.UserService;
@@ -56,6 +57,9 @@ public class Controller {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private NotificationService notificationService;
 
 	private CustomMail customMail = new CustomMail();
 
@@ -602,10 +606,15 @@ public class Controller {
 								userLevelInfo, user);
 
 						Notifications noti = new Notifications();
-						int response = noti.checkUserData(userLevelInfo,
-								userInfo);
+						Map<String,Object> notiResponse = noti.checkUserData(
+								userLevelInfo, userInfo);
+						int response = (int) notiResponse.get("value");
+						String m = (String) notiResponse.get("msg");
+						
 						if (response == 200) {
-							userLevelService.updateNotification(userLevelInfo);
+							userLevelService
+									.updateNotification(userLevelInfo);
+							notificationService.createNotification(userInfo, user, m, user.getDate());
 							userLevelInfo = userLevelService
 									.checkExistingUserLevel(userInfo);
 
@@ -627,11 +636,15 @@ public class Controller {
 											user);
 
 							Notifications noti = new Notifications();
-							int response = noti.checkUserData(userLevelInfo,
-									userInfo);
+							Map<String,Object> notiResponse = noti.checkUserData(
+									userLevelInfo, userInfo);
+							int response = (int) notiResponse.get("value");
+							String m = (String) notiResponse.get("msg");
+							
 							if (response == 200) {
 								userLevelService
 										.updateNotification(userLevelInfo);
+								notificationService.createNotification(userInfo, user, m, user.getDate());
 								userLevelInfo = userLevelService
 										.checkExistingUserLevel(userInfo);
 
@@ -866,11 +879,15 @@ public class Controller {
 											.checkExistingUserLevel(userInfo);
 
 									Notifications noti = new Notifications();
-									int response = noti.checkUserData(
+									Map<String,Object> notiResponse = noti.checkUserData(
 											userLevelInfo, userInfo);
+									int response = (int) notiResponse.get("value");
+									String m = (String) notiResponse.get("msg");
+									
 									if (response == 200) {
 										userLevelService
 												.updateNotification(userLevelInfo);
+										notificationService.createNotification(userInfo, user, m, user.getDate());
 										userLevelInfo = userLevelService
 												.checkExistingUserLevel(userInfo);
 
@@ -1007,6 +1024,30 @@ public class Controller {
 
 			}
 		}
+		return map;
+
+	}
+
+	@RequestMapping(value = "/getNotifications", method = RequestMethod.POST)
+	public Map<String, Object> getNotifications(@RequestBody UserBean user) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkSelfTest(user);
+
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				map.put("notifications",
+						notificationService.getNotifications(userInfo));
+			}
+		}
+
 		return map;
 
 	}

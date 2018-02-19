@@ -5,6 +5,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -13,7 +15,11 @@ import com.chityog.chityogws.domain.UserLevelInfo;
 
 public class Notifications {
 
-	public int checkUserData(UserLevelInfo userLevelInfo, UserInfo userInfo) {
+	public Map<String, Object> checkUserData(UserLevelInfo userLevelInfo,
+			UserInfo userInfo) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
 		int value = 0;
 		String message = "Keep going with your great spirit. Keep motivated and focused";
 		;
@@ -95,7 +101,10 @@ public class Notifications {
 			break;
 		}
 
-		return value;
+		map.put("value", value);
+		map.put("msg", message);
+
+		return map;
 	}
 
 	public String sendNotification() {
