@@ -34,6 +34,11 @@ public class UserService {
 		userDao.createUser(user);
 	}
 
+	public int updateUserDevice(UserBean user,UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		return userDao.updateUserDevice(user,userInfo);
+	}
+	
 	public int updateUserPassword(UserBean user) {
 		// TODO Auto-generated method stub
 		return userDao.updateUserPassword(user);

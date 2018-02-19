@@ -66,6 +66,9 @@ public class UserLevelInfo implements Serializable {
 	
 	@Column(name = "IS_PAYMENT_MADE" , columnDefinition = "boolean default false", nullable = false)
 	private Boolean isPaymentMade = false;
+	
+	@Column(name = "IS_NOTIFICATION" , columnDefinition = "boolean default false", nullable = false)
+	private Boolean isNotification = false;
 
 	@OneToOne
 	@JoinColumn(name = "USER_ID")
@@ -189,6 +192,14 @@ public class UserLevelInfo implements Serializable {
 
 	public void setIsPaymentMade(Boolean isPaymentMade) {
 		this.isPaymentMade = isPaymentMade;
+	}
+
+	public Boolean getIsNotification() {
+		return isNotification;
+	}
+
+	public void setIsNotification(Boolean isNotification) {
+		this.isNotification = isNotification;
 	}
 
 	

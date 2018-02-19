@@ -61,6 +61,9 @@ public class UserInfo implements Serializable {
 	@Column(name = "PROFILE_PIC")
 	private String profilePic;
 	
+	@Column(name = "DEVICE_TOKEN")
+	private String deviceToken;
+	
 
 	public Long getUserId() {
 		return userId;
@@ -165,5 +168,15 @@ public class UserInfo implements Serializable {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
+	public String getDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		this.deviceToken = deviceToken;
+	}
+	
+	
 
 }

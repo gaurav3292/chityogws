@@ -40,7 +40,7 @@ public class UserDao {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createSQLQuery(
-						"insert into user (NAME,EMAIL,PHONE,ADDRESS,GENDER,PASSWORD,DEVICE_TYPE,COUNTRY) values (:name,:email, :phone, :address, :gender, :password, :deviceType, :country)");
+						"insert into user (NAME,EMAIL,PHONE,ADDRESS,GENDER,PASSWORD,DEVICE_TYPE,COUNTRY,DEVICE_TOKEN) values (:name,:email, :phone, :address, :gender, :password, :deviceType, :country, :deviceToken)");
 
 		query.setString("name", user.getName());
 		query.setString("email", user.getEmail());
@@ -50,6 +50,7 @@ public class UserDao {
 		query.setString("gender", user.getGender());
 		query.setString("deviceType", user.getDeviceType());
 		query.setString("country", user.getCountry());
+		query.setString("country", user.getDeviceToken());
 
 		query.executeUpdate();
 	}
@@ -68,6 +69,19 @@ public class UserDao {
 				"from UserInfo u where u.userId = :id");
 		query.setLong("id", userId);
 		return (UserInfo) query.uniqueResult();
+	}
+	
+	public int updateUserDevice(UserBean user,UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserInfo u SET u.deviceType = :deviceType, u.deviceToken = :deviceToken  where u.userId = :id");
+		query.setLong("id", userInfo.getUserId());
+		query.setString("deviceType", user.getDeviceType());
+		query.setString("deviceToken", user.getDeviceToken());
+		query.executeUpdate();
+		return query.executeUpdate();
 	}
 
 	public int updateUserPassword(UserBean user) {
