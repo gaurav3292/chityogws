@@ -50,7 +50,7 @@ public class UserDao {
 		query.setString("gender", user.getGender());
 		query.setString("deviceType", user.getDeviceType());
 		query.setString("country", user.getCountry());
-		query.setString("country", user.getDeviceToken());
+		query.setString("deviceToken", user.getDeviceToken());
 
 		query.executeUpdate();
 	}
