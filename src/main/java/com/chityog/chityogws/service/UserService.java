@@ -10,43 +10,45 @@ import com.chityog.chityogws.domain.UserInfo;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserDao userDao;
-	
-	public UserInfo checkExistingUser(UserBean user){
+
+	public UserInfo checkExistingUser(UserBean user) {
 		return userDao.getUser(user);
 	}
-	
-	public UserInfo checkExistingPhone(UserBean user){
+
+	public UserInfo checkExistingPhone(UserBean user) {
 		return userDao.getUserPhone(user);
 	}
-	
-	public UserInfo checkExistingUserId(UserBean user){
+
+	public UserInfo checkExistingUserId(UserBean user) {
 		return userDao.getUserId(user);
 	}
-	
-	public UserInfo checkExistingUserId(Long userId){
+
+	public UserInfo checkExistingUserId(Long userId) {
 		return userDao.getUserId(userId);
 	}
-	
-	public void createUser(UserBean user){
+
+	public void createUser(UserBean user) {
 		userDao.createUser(user);
 	}
 
-	public int updateUserDevice(UserBean user,UserInfo userInfo) {
+	public int updateUserDevice(UserBean user, UserInfo userInfo) {
 		// TODO Auto-generated method stub
-		return userDao.updateUserDevice(user,userInfo);
+		return userDao.updateUserDevice(user, userInfo);
 	}
-	
+
 	public int updateUserPassword(UserBean user) {
 		// TODO Auto-generated method stub
 		return userDao.updateUserPassword(user);
 	}
 
-	public int updateRandomPassword(UserInfo userInfo, ForgotPasswordInfo forgotPasswordInfo, String randomStr) {
+	public int updateRandomPassword(UserInfo userInfo,
+			ForgotPasswordInfo forgotPasswordInfo, String randomStr) {
 		// TODO Auto-generated method stub
-		return userDao.updateRandomPassword(userInfo,forgotPasswordInfo,randomStr);
+		return userDao.updateRandomPassword(userInfo, forgotPasswordInfo,
+				randomStr);
 	}
 
 	public ForgotPasswordInfo checkExistingCode(UserInfo userInfo) {
@@ -56,7 +58,7 @@ public class UserService {
 
 	public int createNewRandomPassword(UserInfo userInfo, String randomStr) {
 		// TODO Auto-generated method stub
-		return userDao.createNewRandomPassword(userInfo,randomStr);
+		return userDao.createNewRandomPassword(userInfo, randomStr);
 	}
 
 	public int updateTrues(UserInfo userInfo, int numberOfTrue) {
@@ -66,7 +68,7 @@ public class UserService {
 
 	public int updateToken(UserInfo userInfo, String token) {
 		// TODO Auto-generated method stub
-		return userDao.updateToken(userInfo,token);
+		return userDao.updateToken(userInfo, token);
 	}
 
 	public int updateUserEmailVerification(UserInfo userInfo) {
@@ -79,6 +81,12 @@ public class UserService {
 		return userDao.updateProfile(userInfo);
 	}
 
+	public int updateNotificationCount(UserInfo userInfo) {
+		return userDao.updateNotificationCount(userInfo);
+	}
 
+	public int readNotification(UserInfo userInfo) {
+		return userDao.readNotification(userInfo);
+	}
 
 }

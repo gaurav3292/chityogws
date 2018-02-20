@@ -6,7 +6,6 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -606,15 +605,16 @@ public class Controller {
 								userLevelInfo, user);
 
 						Notifications noti = new Notifications();
-						Map<String,Object> notiResponse = noti.checkUserData(
+						Map<String, Object> notiResponse = noti.checkUserData(
 								userLevelInfo, userInfo);
 						int response = (int) notiResponse.get("value");
 						String m = (String) notiResponse.get("msg");
-						
+
 						if (response == 200) {
-							userLevelService
-									.updateNotification(userLevelInfo);
-							notificationService.createNotification(userInfo, user, m, user.getDate());
+							userLevelService.updateNotification(userLevelInfo);
+							userService.updateNotificationCount(userInfo);
+							notificationService.createNotification(userInfo,
+									user, m, user.getDate());
 							userLevelInfo = userLevelService
 									.checkExistingUserLevel(userInfo);
 
@@ -636,15 +636,17 @@ public class Controller {
 											user);
 
 							Notifications noti = new Notifications();
-							Map<String,Object> notiResponse = noti.checkUserData(
-									userLevelInfo, userInfo);
+							Map<String, Object> notiResponse = noti
+									.checkUserData(userLevelInfo, userInfo);
 							int response = (int) notiResponse.get("value");
 							String m = (String) notiResponse.get("msg");
-							
+
 							if (response == 200) {
 								userLevelService
 										.updateNotification(userLevelInfo);
-								notificationService.createNotification(userInfo, user, m, user.getDate());
+								userService.updateNotificationCount(userInfo);
+								notificationService.createNotification(
+										userInfo, user, m, user.getDate());
 								userLevelInfo = userLevelService
 										.checkExistingUserLevel(userInfo);
 
@@ -879,15 +881,21 @@ public class Controller {
 											.checkExistingUserLevel(userInfo);
 
 									Notifications noti = new Notifications();
-									Map<String,Object> notiResponse = noti.checkUserData(
-											userLevelInfo, userInfo);
-									int response = (int) notiResponse.get("value");
+									Map<String, Object> notiResponse = noti
+											.checkUserData(userLevelInfo,
+													userInfo);
+									int response = (int) notiResponse
+											.get("value");
 									String m = (String) notiResponse.get("msg");
-									
+
 									if (response == 200) {
 										userLevelService
 												.updateNotification(userLevelInfo);
-										notificationService.createNotification(userInfo, user, m, user.getDate());
+										userService
+												.updateNotificationCount(userInfo);
+										notificationService.createNotification(
+												userInfo, user, m,
+												user.getDate());
 										userLevelInfo = userLevelService
 												.checkExistingUserLevel(userInfo);
 
@@ -1045,6 +1053,31 @@ public class Controller {
 			} else {
 				map.put("notifications",
 						notificationService.getNotifications(userInfo));
+				map.put("notification_count", userInfo.getNotificationCount());
+			}
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value = "/readNotifications", method = RequestMethod.POST)
+	public Map<String, Object> readNotifications(@RequestBody UserBean user) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = UserValidations.checkSelfTest(user);
+
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			return map;
+		} else {
+			UserInfo userInfo = userService.checkExistingUserId(user);
+			if (userInfo == null) {
+				map.put("status", Config.ERROR);
+				map.put("msg", "User does not exits");
+			} else {
+				userService.readNotification(userInfo);
+				map.put("msg", "Notification read");
 			}
 		}
 

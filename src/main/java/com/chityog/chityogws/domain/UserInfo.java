@@ -60,10 +60,15 @@ public class UserInfo implements Serializable {
 
 	@Column(name = "PROFILE_PIC")
 	private String profilePic;
-	
+
 	@Column(name = "DEVICE_TOKEN")
 	private String deviceToken;
-	
+
+	@Column(name = "NOTIFICATION_COUNT", columnDefinition = "int default 0", nullable = false)
+	private Integer notificationCount = 0;
+
+	@Column(name = "IS_NOTIFICATION_READ", columnDefinition = "boolean default false", nullable = false)
+	private Boolean isNotificationRead = false;
 
 	public Long getUserId() {
 		return userId;
@@ -176,7 +181,21 @@ public class UserInfo implements Serializable {
 	public void setDeviceToken(String deviceToken) {
 		this.deviceToken = deviceToken;
 	}
-	
-	
+
+	public Integer getNotificationCount() {
+		return notificationCount;
+	}
+
+	public void setNotificationCount(Integer notificationCount) {
+		this.notificationCount = notificationCount;
+	}
+
+	public Boolean getIsNotificationRead() {
+		return isNotificationRead;
+	}
+
+	public void setIsNotificationRead(Boolean isNotificationRead) {
+		this.isNotificationRead = isNotificationRead;
+	}
 
 }

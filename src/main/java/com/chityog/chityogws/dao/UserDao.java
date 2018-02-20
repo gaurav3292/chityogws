@@ -70,8 +70,8 @@ public class UserDao {
 		query.setLong("id", userId);
 		return (UserInfo) query.uniqueResult();
 	}
-	
-	public int updateUserDevice(UserBean user,UserInfo userInfo) {
+
+	public int updateUserDevice(UserBean user, UserInfo userInfo) {
 		// TODO Auto-generated method stub
 		Query query = sessionFactory
 				.getCurrentSession()
@@ -154,6 +154,35 @@ public class UserDao {
 		return query.executeUpdate();
 	}
 
+	public int updateNotificationCount(UserInfo userInfo) {
+
+		int count = userInfo.getNotificationCount();
+		count = count + 1;
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserInfo u SET u.notificationCount = :notificationCount, u.isNotificationRead = :isNotificationRead where u.userId = :uid");
+		query.setInteger("notificationCount", count);
+		query.setBoolean("isNotificationRead", false);
+		query.setLong("uid", userInfo.getUserId());
+		query.executeUpdate();
+		return query.executeUpdate();
+
+	}
+
+	public int readNotification(UserInfo userInfo) {
+
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"UPDATE  UserInfo u SET u.notificationCount = :notificationCount, u.isNotificationRead = :isNotificationRead where u.userId = :uid");
+		query.setInteger("notificationCount", 0);
+		query.setBoolean("isNotificationRead", true);
+		query.setLong("uid", userInfo.getUserId());
+		query.executeUpdate();
+		return query.executeUpdate();
+	}
+
 	public int updateUserEmailVerification(UserInfo userInfo) {
 		// TODO Auto-generated method stub
 		Query query = sessionFactory
@@ -190,7 +219,7 @@ public class UserDao {
 			query.setString("phone", userInfo.getPhone());
 			query.setString("address", userInfo.getAddress());
 			query.setString("gender", userInfo.getGender());
-		
+
 			query.setString("profilePic", userInfo.getProfilePic());
 			query.setLong("uid", userInfo.getUserId());
 			query.executeUpdate();
