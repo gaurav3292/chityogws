@@ -64,7 +64,7 @@ public class CustomMail {
 				price, userLevel.getUserLevel());
 
 		MailMail mm = (MailMail) context.getBean("mailMail");
-		mm.sendMail("chityogsadhanaapp@gmail.com", subject, msg, null);
+		mm.sendMail(user.getEmail(), subject, msg, null);
 
 	}
 
