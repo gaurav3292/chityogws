@@ -94,7 +94,11 @@ public class LevelCal {
 				map.put("level", "41");
 				map.put("days", 0);
 				map.put("msg",
-						"Congratulations You have completed level 3 and 1evel 4 (Process your thoughts) has been unlocked");
+						"Congratulations You have completed level 3.\n "
+						+ "If you feel these steps of Chit Yog Sadhana have helped you to make progress"
+						+ " in your total wellbeing at the emotional, physical and mental "
+						+ "levels, then purchase the next, deeper levels of Chit Yog Sadhana "
+						+ "to unlock your hidden power to heal");
 			} else {
 				map.put("level", "3");
 				map.put("days", 15);

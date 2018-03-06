@@ -54,9 +54,9 @@ public class CustomMail {
 
 		String price = null;
 		if (userLevel.getUserLevel().equalsIgnoreCase("41")) {
-			price = "NSD 5";
+			price = "USD 3";
 		} else {
-			price = "NSD 25";
+			price = "USD 35";
 		}
 
 		String subject = Config.PAYMENT_SUBJECT_USER;
