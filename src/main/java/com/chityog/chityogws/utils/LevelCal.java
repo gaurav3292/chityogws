@@ -191,7 +191,11 @@ public class LevelCal {
 				map.put("level", "6");
 				map.put("days", 0);
 				map.put("msg",
-						"Congratulations You have completed level 5 and 1evel 6 has been unlocked");
+						"Congratulations You have completed level 5 and 1evel 6 has been unlocked"
+						+ ".However if you feel   you also has some emotions from other "
+						+ "stage we recommend that you also try to complete those"
+						+ " mediation too to make sure all layers from your Chit can"
+						+ " be burned affectively");
 
 			} else {
 				map.put("level", userLevelInfo.getUserLevel());
