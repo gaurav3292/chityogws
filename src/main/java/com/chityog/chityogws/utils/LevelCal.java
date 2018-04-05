@@ -122,7 +122,7 @@ public class LevelCal {
 			break;
 
 		case "42":
-			if (userLevelInfo.getAttendedNumberOfDays() >= 30) {
+			if (userLevelInfo.getAttendedNumberOfDays() >= 9) {
 				map.put("level", "5");
 				map.put("days", 0);
 				map.put("msg",
