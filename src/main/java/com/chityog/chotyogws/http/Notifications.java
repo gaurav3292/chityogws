@@ -10,8 +10,11 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import com.chityog.chityogws.bean.UserBean;
+import com.chityog.chityogws.domain.LevelResultInfo;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
+import com.chityog.chityogws.utils.LevelCal;
 
 public class Notifications {
 
@@ -168,8 +171,12 @@ public class Notifications {
 			httpCon.setRequestMethod("POST");
 			httpCon.setRequestProperty("Content-Type",
 					"application/json; charset=UTF-8");
+			/*
+			 * httpCon.setRequestProperty("Authorization",
+			 * "key=AIzaSyA5dTIpegtOlIPRRRKM-xX6EmEKY6U3A7Q");
+			 */
 			httpCon.setRequestProperty("Authorization",
-					"key=AIzaSyA5dTIpegtOlIPRRRKM-xX6EmEKY6U3A7Q");
+					"key=AIzaSyDOUh8XWY-MpzlIbG_3zmkpp8TykppkwOw");
 			JSONObject params = new JSONObject();
 			JSONObject dataObj = new JSONObject();
 			dataObj.put("title", "PUCH NOTIFICATION");
@@ -177,7 +184,7 @@ public class Notifications {
 
 			params.put(
 					"to",
-					"fasQjwtw_GM:APA91bElIS2scRIKc8tgW33fR_vkIqrwi5JcLZSirY3H3ljYqGl3qFM8fjnzAuL3_1YvnL3-bX-8paxMdih_zXsXL4H-FncN9YTvCgy1Y53jd6If6wCqY8tMwUBGcg9b3WNFAYfnNPEZ");
+					"dhswPIIY-e4:APA91bFSwQN7T0w7oWwrJUYfn8Tebvjbj4c6hKAJO8NoHlJ2VgPTy_gILKTKHoldNI4JF3jv2LqLOBfK2rwOjaOE3K92Q97zVfiTxXg3YexjPIlJGwCXQJ-6Z1Gt8-fjqOOBX-REA9mP");
 
 			params.put("data", dataObj.toString());
 
@@ -203,6 +210,32 @@ public class Notifications {
 
 		return value;
 
+	}
+
+	public Map<String, Object> checkDatesDifference(
+			UserLevelInfo userLevelInfo, LevelResultInfo levelResultInfo,
+			UserBean userBean, UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		int value = 0;
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		String message = "You are lagging behind in your Program. For any help you can write us at enquires@chityogsadhana.com";
+
+		int daysFromStartDate = LevelCal.getDatesDifference(
+				levelResultInfo.getLastSubmittionDate(), userBean.getDate());
+		if (daysFromStartDate >= 5) {
+
+			if (userInfo.getDeviceType().equalsIgnoreCase("android")) {
+				value = sendNotificationToAndroid(message,
+						userInfo.getDeviceToken());
+			}
+
+		}
+
+		map.put("value", value);
+		map.put("msg", message);
+
+		return map;
 	}
 
 }

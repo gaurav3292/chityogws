@@ -665,6 +665,13 @@ public class Controller {
 
 						levelResultInfo = levelResultService
 								.checkExistingLevelResult(userLevelInfo);
+						Notifications noti = new Notifications();
+						Map<String, Object> notiResponse = noti.checkDatesDifference(userLevelInfo,levelResultInfo,user,userInfo);
+						int daysResponse = (int) notiResponse
+								.get("value");
+						if(daysResponse==200){
+							
+						}
 
 						Gson gson = new Gson();
 						String jsonObject = gson.toJson(levelResultInfo);
@@ -900,6 +907,7 @@ public class Controller {
 												.checkExistingUserLevel(userInfo);
 
 									}
+									
 
 									double percent = LevelCal
 											.getLevelResult(userLevelInfo);
@@ -908,6 +916,17 @@ public class Controller {
 											.updateLevelResult(levelResultInfo,
 													userLevelInfo, percent,
 													user);
+									
+									levelResultInfo = levelResultService
+											.checkExistingLevelResult(userLevelInfo);
+									notiResponse = noti.checkDatesDifference(userLevelInfo,levelResultInfo,user,userInfo);
+									int daysResponse = (int) notiResponse
+											.get("value");
+									if(daysResponse==200){
+										
+									}
+									
+									
 									if (userLevelInfo.getIsExtraResult() == null)
 										if (user.getLevelNumber()
 												.equalsIgnoreCase("1")
