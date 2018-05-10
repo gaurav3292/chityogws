@@ -171,12 +171,8 @@ public class Notifications {
 			httpCon.setRequestMethod("POST");
 			httpCon.setRequestProperty("Content-Type",
 					"application/json; charset=UTF-8");
-			/*
-			 * httpCon.setRequestProperty("Authorization",
-			 * "key=AIzaSyA5dTIpegtOlIPRRRKM-xX6EmEKY6U3A7Q");
-			 */
 			httpCon.setRequestProperty("Authorization",
-					"key=AIzaSyDOUh8XWY-MpzlIbG_3zmkpp8TykppkwOw");
+					"key=AIzaSyA5dTIpegtOlIPRRRKM-xX6EmEKY6U3A7Q");
 			JSONObject params = new JSONObject();
 			JSONObject dataObj = new JSONObject();
 			dataObj.put("title", "PUCH NOTIFICATION");
@@ -184,7 +180,7 @@ public class Notifications {
 
 			params.put(
 					"to",
-					"dhswPIIY-e4:APA91bFSwQN7T0w7oWwrJUYfn8Tebvjbj4c6hKAJO8NoHlJ2VgPTy_gILKTKHoldNI4JF3jv2LqLOBfK2rwOjaOE3K92Q97zVfiTxXg3YexjPIlJGwCXQJ-6Z1Gt8-fjqOOBX-REA9mP");
+					"fasQjwtw_GM:APA91bElIS2scRIKc8tgW33fR_vkIqrwi5JcLZSirY3H3ljYqGl3qFM8fjnzAuL3_1YvnL3-bX-8paxMdih_zXsXL4H-FncN9YTvCgy1Y53jd6If6wCqY8tMwUBGcg9b3WNFAYfnNPEZ");
 
 			params.put("data", dataObj.toString());
 
