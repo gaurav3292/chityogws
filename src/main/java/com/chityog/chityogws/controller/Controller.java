@@ -870,7 +870,7 @@ public class Controller {
 							} else {
 
 								if (levelResultInfo.getLastSubmittionDate()
-										.getDate() == user.getDate().getDate()) {
+										.getTime() == user.getDate().getTime()) {
 
 								} else {
 									int result = userLevelService
