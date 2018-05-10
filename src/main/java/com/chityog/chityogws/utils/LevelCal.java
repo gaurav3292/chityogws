@@ -126,7 +126,7 @@ public class LevelCal {
 				map.put("level", "5");
 				map.put("days", 0);
 				map.put("msg",
-						"Congratulations You have completed level Face the miror  and level 5 has been unlocked");
+						"Congratulations You have completed level Face the mirror  and level 5 has been unlocked");
 			} else {
 				map.put("level", "42");
 				map.put("days", 30);
