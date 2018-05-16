@@ -232,6 +232,6 @@ public class Notifications {
 		map.put("msg", message);
 
 		return map;
-	}
+	} 
 
 }
