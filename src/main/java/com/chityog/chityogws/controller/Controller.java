@@ -744,8 +744,8 @@ public class Controller {
 			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
-				if (userLevelInfo.getStartDate().getDate() == user.getDate()
-						.getDate()) {
+				if (userLevelInfo.getStartDate().getTime() == user.getDate()
+						.getTime()) {
 					map.put("status", Config.ERROR);
 					map.put("msg", "Start submitting your test from tomorrow");
 
