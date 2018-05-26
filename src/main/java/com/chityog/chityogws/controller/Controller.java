@@ -666,11 +666,12 @@ public class Controller {
 						levelResultInfo = levelResultService
 								.checkExistingLevelResult(userLevelInfo);
 						Notifications noti = new Notifications();
-						Map<String, Object> notiResponse = noti.checkDatesDifference(userLevelInfo,levelResultInfo,user,userInfo);
-						int daysResponse = (int) notiResponse
-								.get("value");
-						if(daysResponse==200){
-							
+						Map<String, Object> notiResponse = noti
+								.checkDatesDifference(userLevelInfo,
+										levelResultInfo, user, userInfo);
+						int daysResponse = (int) notiResponse.get("value");
+						if (daysResponse == 200) {
+
 						}
 
 						Gson gson = new Gson();
@@ -907,7 +908,6 @@ public class Controller {
 												.checkExistingUserLevel(userInfo);
 
 									}
-									
 
 									double percent = LevelCal
 											.getLevelResult(userLevelInfo);
@@ -916,17 +916,18 @@ public class Controller {
 											.updateLevelResult(levelResultInfo,
 													userLevelInfo, percent,
 													user);
-									
+
 									levelResultInfo = levelResultService
 											.checkExistingLevelResult(userLevelInfo);
-									notiResponse = noti.checkDatesDifference(userLevelInfo,levelResultInfo,user,userInfo);
+									notiResponse = noti.checkDatesDifference(
+											userLevelInfo, levelResultInfo,
+											user, userInfo);
 									int daysResponse = (int) notiResponse
 											.get("value");
-									if(daysResponse==200){
-										
+									if (daysResponse == 200) {
+
 									}
-									
-									
+
 									if (userLevelInfo.getIsExtraResult() == null)
 										if (user.getLevelNumber()
 												.equalsIgnoreCase("1")
@@ -1114,6 +1115,14 @@ public class Controller {
 						"fasQjwtw_GM:APA91bElIS2scRIKc8tgW33fR_vkIqrwi5JcLZSirY3H3ljYqGl3qFM8fjnzAuL3_1YvnL3-bX-8paxMdih_zXsXL4H-FncN9YTvCgy1Y53jd6If6wCqY8tMwUBGcg9b3WNFAYfnNPEZ");
 		map.put("response", response);
 		return map;
+	}
+
+	@RequestMapping("/sendToIOS")
+	public String sendToIOS() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Notifications noti = new Notifications();
+		noti.sendNotificationToIOS();
+		return "SUCCESS";
 	}
 
 }

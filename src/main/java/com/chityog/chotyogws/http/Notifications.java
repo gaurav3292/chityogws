@@ -15,6 +15,10 @@ import com.chityog.chityogws.domain.LevelResultInfo;
 import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
 import com.chityog.chityogws.utils.LevelCal;
+import com.notnoop.apns.APNS;
+import com.notnoop.apns.ApnsService;
+
+
 
 public class Notifications {
 
@@ -206,6 +210,23 @@ public class Notifications {
 
 		return value;
 
+	}
+	
+	public void sendNotificationToIOS(){
+		
+		 ApnsService service = APNS.newService()
+				.withCert("Certificates_production.p12", "chityog_1234")
+				.withProductionDestination()
+				 .build(); 
+		 String token = "0CBEBF82EEC3A3932041DC1C4345C333352AC2B71320A3CD169542E0128C1B64";
+		 
+		 String payload = APNS.newPayload()
+				 .alertBody("Cant be simpler than this!")
+				 .alertTitle("test alert title").build();
+		 
+		 service.push(token, payload);
+	
+		
 	}
 
 	public Map<String, Object> checkDatesDifference(
