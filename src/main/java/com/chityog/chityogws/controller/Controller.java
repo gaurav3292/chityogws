@@ -9,13 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.chityog.chityogws.bean.LevelResultBean;
+import com.chityog.chityogws.bean.ResetPasswordResponse;
 import com.chityog.chityogws.bean.UserBean;
 import com.chityog.chityogws.domain.ForgotPasswordInfo;
 import com.chityog.chityogws.domain.LevelResultInfo;
@@ -263,10 +267,13 @@ public class Controller {
 				if (result == 1) {
 					ApplicationContext context = new ClassPathXmlApplicationContext(
 							"spring_mail.xml");
+					String link = String.format(Config.FORGOT_PASSWORD_URL,
+							randomStr);
 
 					MailMail mm = (MailMail) context.getBean("mailMail");
 					mm.sendMail(user.getEmail(), "Forgot Password",
-							"Your verification code is " + randomStr, null);
+							"Click below lnk to reset your password " + link,
+							null);
 
 					map.put("user", userInfo);
 					map.put("msg",
@@ -909,14 +916,6 @@ public class Controller {
 
 									}
 
-									double percent = LevelCal
-											.getLevelResult(userLevelInfo);
-
-									levelResult = levelResultService
-											.updateLevelResult(levelResultInfo,
-													userLevelInfo, percent,
-													user);
-
 									levelResultInfo = levelResultService
 											.checkExistingLevelResult(userLevelInfo);
 									notiResponse = noti.checkDatesDifference(
@@ -927,6 +926,14 @@ public class Controller {
 									if (daysResponse == 200) {
 
 									}
+
+									double percent = LevelCal
+											.getLevelResult(userLevelInfo);
+
+									levelResult = levelResultService
+											.updateLevelResult(levelResultInfo,
+													userLevelInfo, percent,
+													user);
 
 									if (userLevelInfo.getIsExtraResult() == null)
 										if (user.getLevelNumber()
@@ -1118,11 +1125,57 @@ public class Controller {
 	}
 
 	@RequestMapping("/sendToIOS")
-	public String sendToIOS() {
+	public String sendToIOS(@RequestParam("token") String token) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Notifications noti = new Notifications();
-		noti.sendNotificationToIOS();
+		String message = "IOS Test";
+		noti.sendNotificationToIOS(message, token);
 		return "SUCCESS";
+	}
+
+	@RequestMapping("/getChange")
+	public ModelAndView getChange() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ModelAndView mav = new ModelAndView("Change");
+		return mav;
+	}
+
+	@RequestMapping(value = "/passwordResetSuccess", method = RequestMethod.POST)
+	public @ResponseBody
+	ModelAndView passwordReset(@ModelAttribute UserBean user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ModelAndView mav = null;
+		map = UserValidations.validateResetPassword(user);
+		String status = (String) map.get("status");
+		if (status.equalsIgnoreCase(Config.ERROR)) {
+			mav = new ModelAndView("Error");
+			mav.getModelMap().addAttribute("msg", map.get("msg"));
+			return mav;
+		} else {
+			ForgotPasswordInfo forgotPasswordInfo = userService
+					.checkExistingCode(user);
+
+			if (forgotPasswordInfo == null) {
+				mav = new ModelAndView("Error");
+				mav.getModelMap().addAttribute("msg", "USer does not exits");
+				return mav;
+			} else if (forgotPasswordInfo.getUserInfo() == null) {
+				mav = new ModelAndView("Error");
+				mav.getModelMap().addAttribute("msg", "USer does not exits");
+				return mav;
+			} else {
+				user.setPassword(user.getNewPassword());
+				user.setUserId(forgotPasswordInfo.getUserInfo().getUserId());
+				int result = userService.updateUserPassword(user);
+				if (result == 1) {
+
+				}
+				mav = new ModelAndView("Thankyou");
+
+			}
+		}
+
+		return mav;
 	}
 
 }

@@ -118,6 +118,14 @@ public class UserDao {
 		query.setLong("userId", userInfo.getUserId());
 		return (ForgotPasswordInfo) query.uniqueResult();
 	}
+	
+	public ForgotPasswordInfo checkExistingCode(UserBean userBean) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"FROM ForgotPasswordInfo where forgotPasswordCode = :forgotPasswordCode");
+		query.setString("forgotPasswordCode", userBean.getToken());
+		return (ForgotPasswordInfo) query.uniqueResult();
+	}
 
 	public int createNewRandomPassword(UserInfo userInfo, String randomStr) {
 		// TODO Auto-generated method stub

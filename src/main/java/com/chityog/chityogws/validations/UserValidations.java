@@ -8,6 +8,8 @@ import com.chityog.chityogws.utils.Config;
 
 public class UserValidations {
 
+	private static String PASSWORD_REGEX = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$";
+
 	public static Map<String, Object> validateUser(UserBean user) {
 
 		String status = Config.SUCCESS;
@@ -298,6 +300,36 @@ public class UserValidations {
 
 		map.put("status", status);
 		return map;
+	}
+
+	public static Map<String, Object> validateResetPassword(UserBean user) {
+		// TODO Auto-generated method stub
+
+		String status = Config.SUCCESS;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (!user.getNewPassword().equalsIgnoreCase(user.getConfirmPassword())) {
+
+			status = Config.ERROR;
+
+			map.put("msg", "Passwords do not match");
+
+		} else if (checkPassword(user.getNewPassword())) {
+
+		} else {
+			status = Config.ERROR;
+
+			map.put("msg",
+					"Password should contains eight characters including one uppercase letter, one lowercase letter, and one number or special character");
+		}
+
+		map.put("status", status);
+		return map;
+	}
+
+	public static boolean checkPassword(String password) {
+		Boolean b = password.matches(PASSWORD_REGEX);
+		return b;
+
 	}
 
 }

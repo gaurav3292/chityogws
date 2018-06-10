@@ -18,6 +18,15 @@ public class UserBean implements Serializable {
 	private String country;
 	private String oldPassword;
 	private String newPassword;
+	private String confirmPassword;
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
 	private String otp;
 	private int numberOfTrue;
 	private int totalNumberOfQuestions;

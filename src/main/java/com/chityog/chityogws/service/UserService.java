@@ -55,6 +55,11 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return userDao.checkExistingCode(userInfo);
 	}
+	
+	public ForgotPasswordInfo checkExistingCode(UserBean userBean) {
+		// TODO Auto-generated method stub
+		return userDao.checkExistingCode(userBean);
+	}
 
 	public int createNewRandomPassword(UserInfo userInfo, String randomStr) {
 		// TODO Auto-generated method stub

@@ -11,15 +11,16 @@ public class Config {
 	public static final String NO = "NO";
 	
 	public static final String TEST_URL = "http://localhost:8080/chityogws";
-//	public static final String LIVE_URL = "http://54.244.1.194:8080/chityogws";
-	
 	public static final String LIVE_URL = "http://18.191.61.79:8080/chityogws";
 	
-	public static final String IMAGE_TEST_URL = "http://localhost:8080/chityogws/resources";
-//	public static final String IMAGE_LIVE_URL = "http://54.244.1.194:8080/chityogws/resources";
-	public static final String IMAGE_LIVE_URL = "http://18.191.61.79:8080/chityogws/resources";
-
+	//public static final String LIVE_URL = "http://18.191.61.79:8080/chityogws";
 	
+	public static final String IMAGE_TEST_URL = "http://localhost:8080/chityogws/resources";
+	public static final String IMAGE_LIVE_URL = "http://18.191.61.79:8080/chityogws/resources";
+//	public static final String IMAGE_LIVE_URL = "http://18.191.61.79:8080/chityogws/resources";
+
+	public static final String FORGOT_PASSWORD_URL = "http://18.191.61.79:8080/chityogws/getChange?token=%s";
+
 	public static final String EMAIL_VERIFY_STR = "Please click on below link to verify your email\n\n";
 
 	

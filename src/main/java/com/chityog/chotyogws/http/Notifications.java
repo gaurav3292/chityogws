@@ -18,9 +18,9 @@ import com.chityog.chityogws.utils.LevelCal;
 import com.notnoop.apns.APNS;
 import com.notnoop.apns.ApnsService;
 
-
-
 public class Notifications {
+	
+	private static String PATH_TO_P12_CERT = "src/main/resources/Certificates_production.p12";
 
 	public Map<String, Object> checkUserData(UserLevelInfo userLevelInfo,
 			UserInfo userInfo) {
@@ -39,6 +39,9 @@ public class Notifications {
 				if (userInfo.getDeviceType().equalsIgnoreCase("android")) {
 					value = sendNotificationToAndroid(message,
 							userInfo.getDeviceToken());
+				} else {
+					sendNotificationToIOS(message, userInfo.getDeviceToken());
+					value = 200;
 				}
 			}
 
@@ -51,6 +54,9 @@ public class Notifications {
 				if (userInfo.getDeviceType().equalsIgnoreCase("android")) {
 					value = sendNotificationToAndroid(message,
 							userInfo.getDeviceToken());
+				} else {
+					sendNotificationToIOS(message, userInfo.getDeviceToken());
+					value = 200;
 				}
 			}
 
@@ -63,6 +69,9 @@ public class Notifications {
 				if (userInfo.getDeviceType().equalsIgnoreCase("android")) {
 					value = sendNotificationToAndroid(message,
 							userInfo.getDeviceToken());
+				}else{
+					sendNotificationToIOS(message, userInfo.getDeviceToken());
+					value = 200;
 				}
 			}
 
@@ -74,6 +83,9 @@ public class Notifications {
 				if (userInfo.getDeviceType().equalsIgnoreCase("android")) {
 					value = sendNotificationToAndroid(message,
 							userInfo.getDeviceToken());
+				}else{
+					sendNotificationToIOS(message, userInfo.getDeviceToken());
+					value = 200;
 				}
 			}
 
@@ -86,6 +98,9 @@ public class Notifications {
 				if (userInfo.getDeviceType().equalsIgnoreCase("android")) {
 					value = sendNotificationToAndroid(message,
 							userInfo.getDeviceToken());
+				}else{
+					sendNotificationToIOS(message, userInfo.getDeviceToken());
+					value = 200;
 				}
 			}
 
@@ -100,6 +115,9 @@ public class Notifications {
 				if (userInfo.getDeviceType().equalsIgnoreCase("android")) {
 					value = sendNotificationToAndroid(message,
 							userInfo.getDeviceToken());
+				}else{
+					sendNotificationToIOS(message, userInfo.getDeviceToken());
+					value = 200;
 				}
 			}
 			break;
@@ -211,22 +229,17 @@ public class Notifications {
 		return value;
 
 	}
-	
-	public void sendNotificationToIOS(){
-		
-		 ApnsService service = APNS.newService()
-				.withCert("Certificates_production.p12", "chityog_1234")
-				.withProductionDestination()
-				 .build(); 
-		 String token = "0CBEBF82EEC3A3932041DC1C4345C333352AC2B71320A3CD169542E0128C1B64";
-		 
-		 String payload = APNS.newPayload()
-				 .alertBody("Cant be simpler than this!")
-				 .alertTitle("test alert title").build();
-		 
-		 service.push(token, payload);
-	
-		
+
+	public void sendNotificationToIOS(String message, String token) {
+
+		ApnsService service = APNS.newService()
+				.withCert(this.getClass().getResourceAsStream("/Certificates_production.p12"), "chityog_1234")
+				.withProductionDestination().build();
+		String payload = APNS.newPayload().alertBody(message)
+				.alertTitle("Chityog").build();
+
+		service.push(token, payload);
+
 	}
 
 	public Map<String, Object> checkDatesDifference(
@@ -245,6 +258,9 @@ public class Notifications {
 			if (userInfo.getDeviceType().equalsIgnoreCase("android")) {
 				value = sendNotificationToAndroid(message,
 						userInfo.getDeviceToken());
+			}else{
+				sendNotificationToIOS(message, userInfo.getDeviceToken());
+				value = 200;
 			}
 
 		}
@@ -253,6 +269,6 @@ public class Notifications {
 		map.put("msg", message);
 
 		return map;
-	} 
+	}
 
 }
