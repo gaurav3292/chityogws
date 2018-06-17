@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import com.chityog.chityogws.domain.UserInfo;
 import com.chityog.chityogws.domain.UserLevelInfo;
 import com.chityog.chityogws.helper.ConversionHelper;
 import com.chityog.chityogws.mail.CustomMail;
+import com.chityog.chityogws.mail.JavaMail;
 import com.chityog.chityogws.mail.MailMail;
 import com.chityog.chityogws.security.MD5;
 import com.chityog.chityogws.service.CountryService;
@@ -269,11 +271,19 @@ public class Controller {
 							"spring_mail.xml");
 					String link = String.format(Config.FORGOT_PASSWORD_URL,
 							randomStr);
+					String tag = "<a href=\""+link+"\">Reset your password</a>";
+					
+					String html = "<html><body>"+tag+"</body></html>";
 
-					MailMail mm = (MailMail) context.getBean("mailMail");
-					mm.sendMail(user.getEmail(), "Forgot Password",
-							"Click below lnk to reset your password " + link,
-							null);
+					JavaMail mm = (JavaMail) context.getBean("javaMail");
+					try {
+						mm.sendResetPasswordMail(user.getEmail(), "Forgot Password",
+								"Click below lnk to reset your password " + html,
+								null);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 					map.put("user", userInfo);
 					map.put("msg",

@@ -21,5 +21,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<bean id="mailMail" class="com.chityog.chityogws.mail.MailMail">
 		<property name="mailSender" ref="mailSender" />
 	</bean>
+	
+	<bean id="javaMail" class="com.chityog.chityogws.mail.JavaMail">
+		<property name="javaMailSender" ref="mailSender" />
+	</bean>
 
 </beans>

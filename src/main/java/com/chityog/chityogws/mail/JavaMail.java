@@ -8,7 +8,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
-public class MailMail {
+public class JavaMail {
 
 	private MailSender mailSender;
 	private String FOOTER = "\n\n\nThanks & Regards\n"
@@ -35,7 +35,7 @@ public class MailMail {
 		message.setTo(to);
 		message.setSubject(subject);
 		message.setText(msg + FOOTER);
-		message.setReplyTo("chityogsadhanaapp@gmail.com");
+		message.setReplyTo(replyTo);
 		mailSender.send(message);
 	}
 
@@ -52,9 +52,8 @@ public class MailMail {
 		helper.setSubject(subject);
 
 		helper.setText(msg + FOOTER, true);
-		helper.setReplyTo(replyTo);
+		message.setReplyTo("chityogsadhanaapp@gmail.com");
 		this.javaMailSender.send(mime);
 
 	}
-
 }

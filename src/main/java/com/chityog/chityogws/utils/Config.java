@@ -19,7 +19,7 @@ public class Config {
 	public static final String IMAGE_LIVE_URL = "http://18.191.61.79:8080/chityogws/resources";
 //	public static final String IMAGE_LIVE_URL = "http://18.191.61.79:8080/chityogws/resources";
 
-	public static final String FORGOT_PASSWORD_URL = "http://18.191.61.79:8080/chityogws/getChange?token=%s";
+	public static final String FORGOT_PASSWORD_URL = "http://18.191.61.79/chityogws/getChange?token=%s";
 
 	public static final String EMAIL_VERIFY_STR = "Please click on below link to verify your email\n\n";
 
