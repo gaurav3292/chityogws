@@ -131,7 +131,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUser(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "Email id does not exits");
+				map.put("msg", "Email id does not exist");
 			} else if (!userInfo.getPassword().equalsIgnoreCase(
 					MD5.encode(user.getPassword()))) {
 				map.put("status", Config.ERROR);
@@ -169,7 +169,7 @@ public class Controller {
 				UserInfo userInfo = userService.checkExistingUserId(user);
 				if (userInfo == null) {
 					map.put("status", Config.ERROR);
-					map.put("msg", "User does not exits");
+					map.put("msg", "User does not exist");
 				} else {
 					if (!userInfo.getPassword().equalsIgnoreCase(
 							MD5.encode(user.getOldPassword()))) {
@@ -199,7 +199,7 @@ public class Controller {
 				UserInfo userInfo = userService.checkExistingUserId(user);
 				if (userInfo == null) {
 					map.put("status", Config.ERROR);
-					map.put("msg", "User does not exits");
+					map.put("msg", "User does not exist");
 				} else {
 					ForgotPasswordInfo forgotPasswordInfo = userService
 							.checkExistingCode(userInfo);
@@ -246,7 +246,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUser(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "Email id does not exits");
+				map.put("msg", "Email id does not exist");
 			} else {
 				String randomStr = "";
 				Random r = new Random();
@@ -287,7 +287,7 @@ public class Controller {
 
 					map.put("user", userInfo);
 					map.put("msg",
-							"Your verification code has been sent to your mail please check your Email.");
+							"A Reset Link has been sent to you Registered Email ID. Please check your email");
 
 				} else {
 					map.put("status", Config.ERROR);
@@ -311,7 +311,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				int result = userService.updateTrues(userInfo,
 						user.getNumberOfTrue());
@@ -375,7 +375,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				map.put("msg", "User details");
 				if (userInfo.getProfilePic() != null) {
@@ -406,7 +406,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUser(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 
 			} else {
 				String token = "";
@@ -486,7 +486,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				userInfo.setAddress(user.getAddress());
 				userInfo.setPhone(user.getPhone());
@@ -538,7 +538,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				int result = userLevelService.updateUserLevelInfo(userInfo,
 						user);
@@ -570,7 +570,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
@@ -609,7 +609,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
@@ -758,7 +758,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
@@ -798,7 +798,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
@@ -829,7 +829,7 @@ public class Controller {
 						}
 					} else {
 						map.put("status", Config.ERROR);
-						map.put("msg", "User does not exits");
+						map.put("msg", "User does not exist");
 					}
 				} else {
 
@@ -856,7 +856,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
@@ -1041,7 +1041,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				UserLevelInfo userLevelInfo = userLevelService
 						.checkExistingUserLevel(userInfo);
@@ -1086,7 +1086,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				map.put("notifications",
 						notificationService.getNotifications(userInfo));
@@ -1111,7 +1111,7 @@ public class Controller {
 			UserInfo userInfo = userService.checkExistingUserId(user);
 			if (userInfo == null) {
 				map.put("status", Config.ERROR);
-				map.put("msg", "User does not exits");
+				map.put("msg", "User does not exist");
 			} else {
 				userService.readNotification(userInfo);
 				map.put("msg", "Notification read");
@@ -1167,11 +1167,11 @@ public class Controller {
 
 			if (forgotPasswordInfo == null) {
 				mav = new ModelAndView("Error");
-				mav.getModelMap().addAttribute("msg", "USer does not exits");
+				mav.getModelMap().addAttribute("msg", "USer does not exist");
 				return mav;
 			} else if (forgotPasswordInfo.getUserInfo() == null) {
 				mav = new ModelAndView("Error");
-				mav.getModelMap().addAttribute("msg", "USer does not exits");
+				mav.getModelMap().addAttribute("msg", "USer does not exist");
 				return mav;
 			} else {
 				user.setPassword(user.getNewPassword());
